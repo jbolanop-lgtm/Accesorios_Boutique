@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Inspiración Boutique Accesorios</title>
     <!-- Firebase SDKs -->
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
@@ -34,12 +34,17 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
-        body {
+        html, body {
+            width: 100%;
+            min-height: 100vh;
             background-color: var(--bg-color);
             color: var(--text-color);
-            display: flex;
-            min-height: 100vh;
             overflow-x: hidden;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
         }
 
         /* Pantalla de Autenticación */
@@ -53,7 +58,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            z-index: 1000;
+            z-index: 2000;
             padding: 15px;
         }
 
@@ -93,7 +98,7 @@
             font-size: 1.1rem;
         }
 
-        /* App Layout */
+        /* App Layout Superior Fijo */
         #app-layout {
             display: none;
             width: 100%;
@@ -102,45 +107,89 @@
 
         .main-layout {
             display: flex;
+            flex-direction: column;
             width: 100%;
             min-height: 100vh;
         }
 
         header {
-            width: 260px;
+            width: 100%;
             background-color: var(--card-bg);
-            border-right: 1px solid var(--border-color);
+            border-bottom: 1px solid var(--border-color);
             display: flex;
-            flex-direction: column;
+            align-items: center;
             justify-content: space-between;
-            padding: 20px;
-            flex-shrink: 0;
+            padding: 12px 25px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.03);
         }
 
         .logo-area h2 {
             color: var(--primary-color);
-            font-size: 1.25rem;
-            margin-bottom: 30px;
-            text-align: center;
+            font-size: 1.2rem;
+            margin-bottom: 0;
+        }
+
+        .hamburger-btn {
+            background: none;
+            border: none;
+            font-size: 1.6rem;
+            cursor: pointer;
+            color: var(--primary-color);
+            padding: 4px 8px;
+            border-radius: 6px;
+            background-color: var(--primary-light);
+            transition: background 0.2s;
+        }
+        .hamburger-btn:hover {
+            opacity: 0.8;
+        }
+
+        /* Menú Desplegable Hamburguesa */
+        nav {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            background-color: var(--card-bg);
+            border-bottom: 1px solid var(--border-color);
+            padding: 15px 25px;
+            box-shadow: 0 10px 15px rgba(0,0,0,0.05);
+            animation: slideDown 0.2s ease-in-out;
+        }
+
+        nav.nav-open {
+            display: block;
+        }
+
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-8px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         nav ul {
             list-style: none;
-        }
-
-        nav ul li {
-            margin-bottom: 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            max-width: 400px;
+            margin: 0 auto;
         }
 
         nav ul li a {
             display: block;
-            padding: 12px 15px;
+            padding: 12px 18px;
             color: var(--secondary-color);
             text-decoration: none;
             border-radius: 8px;
             font-weight: 500;
-            transition: all 0.3s ease;
+            transition: all 0.2s ease;
             cursor: pointer;
+            text-align: center;
+            background: #f8f9fa;
         }
 
         nav ul li a:hover, nav ul li a.active {
@@ -149,33 +198,33 @@
         }
 
         .user-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .user-info p {
             font-size: 0.85rem;
             color: var(--secondary-color);
-            text-align: center;
-            border-top: 1px solid var(--border-color);
-            padding-top: 15px;
         }
 
         .logout-btn {
             background-color: var(--danger);
             color: white;
             border: none;
-            padding: 8px 12px;
+            padding: 8px 14px;
             border-radius: 6px;
             cursor: pointer;
-            margin-top: 10px;
-            width: 100%;
             font-size: 0.85rem;
+            font-weight: 500;
         }
 
         /* Contenido Principal */
         main {
             flex: 1;
             padding: 25px;
-            overflow-y: auto;
-            max-height: 100vh;
             width: 100%;
-            max-width: calc(100vw - 260px);
+            max-width: 100%;
         }
 
         .module {
@@ -239,13 +288,23 @@
             border-radius: 10px;
             box-shadow: 0 2px 4px rgba(0,0,0,0.05);
             position: relative;
-            height: 320px;
+            height: 380px; /* Altura aumentada para evitar desbordamiento del gráfico de torta */
+            display: flex;
+            flex-direction: column;
         }
 
         .chart-card h3 {
             font-size: 1rem;
-            margin-bottom: 15px;
+            margin-bottom: 10px;
             color: var(--secondary-color);
+            flex-shrink: 0;
+        }
+
+        .chart-container {
+            position: relative;
+            flex: 1;
+            width: 100%;
+            min-height: 0;
         }
 
         .card {
@@ -415,14 +474,39 @@
             margin-bottom: 10px;
         }
 
-        @media (max-width: 900px) {
-            body { flex-direction: column; }
-            header { width: 100%; height: auto; flex-direction: row; align-items: center; padding: 10px 15px; }
-            .logo-area h2 { margin-bottom: 0; font-size: 1rem; }
-            nav ul { display: flex; gap: 5px; overflow-x: auto; }
-            nav ul li a { padding: 8px 10px; font-size: 0.8rem; }
-            .user-info { display: none; }
-            main { max-width: 100%; padding: 15px; max-height: none; }
+        @media (max-width: 768px) {
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 10px;
+            }
+            .stat-card {
+                padding: 12px;
+            }
+            .stat-card p {
+                font-size: 1.1rem;
+            }
+            .form-grid {
+                grid-template-columns: 1fr;
+                gap: 10px;
+            }
+            .item-venta-row .form-grid {
+                grid-template-columns: 1fr !important;
+                gap: 8px;
+            }
+            button {
+                width: 100%;
+                padding: 12px;
+            }
+            .filters-bar {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .filters-bar > div {
+                width: 100% !important;
+            }
+            .user-info {
+                display: none;
+            }
         }
     </style>
 </head>
@@ -448,23 +532,32 @@
     <!-- Layout de la Aplicación -->
     <div id="app-layout">
         <div class="main-layout">
-            <!-- Barra Lateral de Navegación -->
+            <!-- Barra Superior Tipo Hamburguesa -->
             <header>
-                <div class="logo-area">
-                    <h2>✨ Inspiración Boutique</h2>
+                <div style="display: flex; align-items: center; gap: 15px;">
+                    <button class="hamburger-btn" onclick="toggleMenu()" aria-label="Abrir menú">☰</button>
+                    <div class="logo-area">
+                        <h2>✨ Inspiración Boutique</h2>
+                    </div>
                 </div>
-                <nav>
-                    <ul>
-                        <li><a class="nav-link active" onclick="switchModule('dashboard')">Dashboard</a></li>
-                        <li><a class="nav-link" onclick="switchModule('clientes')">Clientes</a></li>
-                        <li><a class="nav-link" onclick="switchModule('ventas')">Ventas</a></li>
-                        <li><a class="nav-link" onclick="switchModule('cobros')">Cobros y Cuentas</a></li>
-                    </ul>
-                </nav>
+                
                 <div class="user-info">
                     <p>Control de Accesorios</p>
                     <button class="logout-btn" onclick="handleLogout()">Cerrar Sesión</button>
                 </div>
+
+                <!-- Menú Desplegable Hamburguesa -->
+                <nav id="main-nav">
+                    <ul>
+                        <li><a class="nav-link active" onclick="switchModule('dashboard')">📊 Dashboard</a></li>
+                        <li><a class="nav-link" onclick="switchModule('clientes')">👥 Clientes</a></li>
+                        <li><a class="nav-link" onclick="switchModule('ventas')">🛍️ Ventas</a></li>
+                        <li><a class="nav-link" onclick="switchModule('cobros')">💵 Cobros y Cuentas</a></li>
+                        <li style="margin-top: 10px; border-top: 1px solid var(--border-color); padding-top: 10px;">
+                            <a onclick="handleLogout()" style="color: var(--danger); background: #fdf2f2;">🚪 Cerrar Sesión</a>
+                        </li>
+                    </ul>
+                </nav>
             </header>
 
             <!-- Contenido Principal -->
@@ -534,19 +627,27 @@
                     <div class="charts-grid" style="margin-top: 25px;">
                         <div class="chart-card">
                             <h3>Tipos de Venta (Participación y Cantidad)</h3>
-                            <canvas id="chartTiposVenta"></canvas>
+                            <div class="chart-container">
+                                <canvas id="chartTiposVenta"></canvas>
+                            </div>
                         </div>
                         <div class="chart-card">
                             <h3>Tendencia Diaria de Ventas</h3>
-                            <canvas id="chartTendenciaDiaria"></canvas>
+                            <div class="chart-container">
+                                <canvas id="chartTendenciaDiaria"></canvas>
+                            </div>
                         </div>
                         <div class="chart-card">
                             <h3>Ventas Mensuales</h3>
-                            <canvas id="chartVentasMensuales"></canvas>
+                            <div class="chart-container">
+                                <canvas id="chartVentasMensuales"></canvas>
+                            </div>
                         </div>
                         <div class="chart-card">
                             <h3>Clientes Morosos por Antigüedad</h3>
-                            <canvas id="chartMorososAntiguedad"></canvas>
+                            <div class="chart-container">
+                                <canvas id="chartMorososAntiguedad"></canvas>
+                            </div>
                         </div>
                     </div>
                 </section>
@@ -854,6 +955,20 @@
         let dbVentas = [];
         let chartsInstance = {};
 
+        function toggleMenu() {
+            const nav = document.getElementById('main-nav');
+            nav.classList.toggle('nav-open');
+        }
+
+        window.onclick = function(event) {
+            if (!event.target.closest('header')) {
+                const nav = document.getElementById('main-nav');
+                if (nav && nav.classList.contains('nav-open')) {
+                    nav.classList.remove('nav-open');
+                }
+            }
+        };
+
         function togglePasswordVisibility() {
             const pwdInput = document.getElementById('auth-password');
             pwdInput.type = pwdInput.type === 'password' ? 'text' : 'password';
@@ -917,7 +1032,7 @@
                 });
                 renderVentas();
                 renderCobros();
-                renderClientes(); // Para actualizar acumulados en tiempo real
+                renderClientes(); 
                 actualizarDashboard();
             }, error => console.error("Error ventas:", error));
         }
@@ -928,6 +1043,9 @@
             
             document.getElementById(moduleId).classList.add('active');
             event.target.classList.add('active');
+
+            const nav = document.getElementById('main-nav');
+            nav.classList.remove('nav-open');
 
             if(moduleId === 'dashboard') actualizarDashboard();
             if(moduleId === 'ventas') {
@@ -993,7 +1111,6 @@
             }
 
             filtrados.forEach(c => {
-                // Relación correcta por clienteId
                 let ventasCli = dbVentas.filter(v => v.clienteId === c.id);
                 
                 let totalVentas = ventasCli.reduce((acc, v) => {
@@ -1071,7 +1188,6 @@
             XLSX.writeFile(wb, "Inspiracion_Boutique_Clientes.xlsx");
         }
 
-        // --- GESTIÓN VENTAS MULTI-ARTÍCULOS CON GANANCIA AUTOMÁTICA ---
         function cargarSelectClientes(filtrados = dbClientes) {
             const select = document.getElementById('venta-cliente');
             if(!select) return;
@@ -1397,7 +1513,6 @@
             XLSX.writeFile(wb, "Inspiracion_Boutique_Ventas.xlsx");
         }
 
-        // --- GESTIÓN ABONOS ---
         function abrirModalAbonos(ventaId) {
             const v = dbVentas.find(item => item.id === ventaId);
             if (!v) return;
@@ -1486,7 +1601,6 @@
             }).catch(err => alert('Error: ' + err.message));
         }
 
-        // --- MÓDULO COBROS ---
         function renderCobros() {
             const tbody = document.getElementById('tabla-cobros');
             if(!tbody) return;
@@ -1594,7 +1708,6 @@
             renderCobros();
         }
 
-        // --- DASHBOARD ---
         function aplicarFiltrosDashboard() {
             actualizarDashboard();
         }
@@ -1756,7 +1869,19 @@
                         backgroundColor: ['#d63384', '#6c757d', '#28a745', '#ffc107', '#17a2b8', '#fd7e14', '#6f42c1']
                     }]
                 },
-                options: { responsive: true, maintainAspectRatio: false }
+                options: { 
+                    responsive: true, 
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                boxWidth: 12,
+                                font: { size: 11 }
+                            }
+                        }
+                    }
+                }
             });
         }
 
