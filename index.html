@@ -39,6 +39,7 @@
             color: var(--text-color);
             display: flex;
             min-height: 100vh;
+            overflow-x: hidden;
         }
 
         /* Pantalla de Autenticación */
@@ -53,11 +54,12 @@
             justify-content: center;
             align-items: center;
             z-index: 1000;
+            padding: 15px;
         }
 
         .auth-card {
             background: white;
-            padding: 40px;
+            padding: 30px;
             border-radius: 15px;
             box-shadow: 0 10px 25px rgba(0,0,0,0.1);
             width: 100%;
@@ -95,13 +97,13 @@
         #app-layout {
             display: none;
             width: 100%;
-            height: 100vh;
+            min-height: 100vh;
         }
 
         .main-layout {
             display: flex;
             width: 100%;
-            height: 100vh;
+            min-height: 100vh;
         }
 
         header {
@@ -112,6 +114,7 @@
             flex-direction: column;
             justify-content: space-between;
             padding: 20px;
+            flex-shrink: 0;
         }
 
         .logo-area h2 {
@@ -168,9 +171,11 @@
         /* Contenido Principal */
         main {
             flex: 1;
-            padding: 30px;
+            padding: 25px;
             overflow-y: auto;
             max-height: 100vh;
+            width: 100%;
+            max-width: calc(100vw - 260px);
         }
 
         .module {
@@ -195,7 +200,7 @@
 
         .stats-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
             gap: 15px;
             margin-bottom: 25px;
         }
@@ -206,6 +211,7 @@
             border-radius: 10px;
             box-shadow: 0 2px 4px rgba(0,0,0,0.05);
             border-left: 5px solid var(--primary-color);
+            word-break: break-word;
         }
 
         .stat-card h3 {
@@ -215,14 +221,14 @@
         }
 
         .stat-card p {
-            font-size: 1.4rem;
+            font-size: 1.3rem;
             font-weight: bold;
             color: var(--text-color);
         }
 
         .charts-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
             gap: 20px;
             margin-bottom: 25px;
         }
@@ -244,10 +250,11 @@
 
         .card {
             background: var(--card-bg);
-            padding: 25px;
+            padding: 20px;
             border-radius: 10px;
             box-shadow: 0 2px 4px rgba(0,0,0,0.05);
             margin-bottom: 25px;
+            overflow-x: auto;
         }
 
         .form-grid {
@@ -277,6 +284,7 @@
             outline: none;
             transition: border-color 0.2s;
             background: #fff;
+            width: 100%;
         }
 
         input:focus, select:focus, textarea:focus {
@@ -287,7 +295,7 @@
             background-color: var(--primary-color);
             color: white;
             border: none;
-            padding: 10px 20px;
+            padding: 10px 18px;
             border-radius: 6px;
             font-size: 0.95rem;
             cursor: pointer;
@@ -301,8 +309,25 @@
 
         .btn-secondary { background-color: var(--secondary-color); }
         .btn-success { background-color: var(--success); }
-        .btn-whatsapp { background-color: var(--whatsapp); color: white; text-decoration: none; display: inline-flex; align-items: center; justify-content: center; padding: 6px 12px; border-radius: 6px; font-size: 0.85rem; font-weight: 500; gap: 5px; }
+        .btn-danger { background-color: var(--danger); }
         .btn-excel { background-color: #1d6f42; }
+
+        .btn-icon {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1.1rem;
+            padding: 6px;
+            border-radius: 4px;
+            transition: background 0.2s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .btn-icon:hover {
+            background-color: #f1f3f5;
+            opacity: 1;
+        }
 
         .filters-bar {
             display: flex;
@@ -317,7 +342,9 @@
         }
 
         .table-responsive {
+            width: 100%;
             overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
         }
 
         table {
@@ -325,12 +352,14 @@
             border-collapse: collapse;
             margin-top: 10px;
             text-align: left;
+            min-width: 650px;
         }
 
         th, td {
-            padding: 12px;
+            padding: 12px 10px;
             border-bottom: 1px solid var(--border-color);
             font-size: 0.9rem;
+            word-break: break-word;
         }
 
         th {
@@ -339,19 +368,12 @@
             color: var(--secondary-color);
         }
 
-        .clickable-row {
-            cursor: pointer;
-            transition: background 0.2s;
-        }
-        .clickable-row:hover {
-            background-color: #f1f3f5;
-        }
-
         .badge {
             padding: 5px 10px;
             border-radius: 20px;
             font-size: 0.75rem;
             font-weight: 500;
+            display: inline-block;
         }
         .badge-pending { background-color: #fff3cd; color: #856404; }
         .badge-paid { background-color: #d4edda; color: #155724; }
@@ -364,15 +386,18 @@
             justify-content: center;
             align-items: center;
             z-index: 2000;
+            padding: 15px;
         }
         .modal-content {
             background: white;
-            padding: 30px;
+            padding: 25px;
             border-radius: 10px;
             width: 100%;
-            max-width: 500px;
+            max-width: 550px;
             box-shadow: 0 5px 15px rgba(0,0,0,0.2);
             position: relative;
+            max-height: 90vh;
+            overflow-y: auto;
         }
         .close-modal {
             position: absolute;
@@ -382,13 +407,22 @@
             color: var(--secondary-color);
         }
 
-        @media (max-width: 768px) {
-            .main-layout { flex-direction: column; }
-            header { width: 100%; flex-direction: row; align-items: center; padding: 10px 15px; height: auto; }
+        .item-venta-row {
+            background: #fafafa;
+            border: 1px solid var(--border-color);
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+        }
+
+        @media (max-width: 900px) {
+            body { flex-direction: column; }
+            header { width: 100%; height: auto; flex-direction: row; align-items: center; padding: 10px 15px; }
             .logo-area h2 { margin-bottom: 0; font-size: 1rem; }
-            nav ul { display: flex; gap: 5px; }
-            nav ul li a { padding: 8px 10px; font-size: 0.85rem; }
+            nav ul { display: flex; gap: 5px; overflow-x: auto; }
+            nav ul li a { padding: 8px 10px; font-size: 0.8rem; }
             .user-info { display: none; }
+            main { max-width: 100%; padding: 15px; max-height: none; }
         }
     </style>
 </head>
@@ -481,7 +515,23 @@
                         </div>
                     </div>
 
-                    <div class="charts-grid">
+                    <!-- Rankings -->
+                    <div class="charts-grid" style="grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));">
+                        <div class="card" style="margin-bottom:0;">
+                            <h3 style="color:var(--secondary-color); margin-bottom:12px;">Top Artículos más Vendidos</h3>
+                            <div id="top-articulos-list" style="font-size: 0.9rem; line-height: 1.6;"></div>
+                        </div>
+                        <div class="card" style="margin-bottom:0;">
+                            <h3 style="color:var(--secondary-color); margin-bottom:12px;">Top 3 Clientes con más Artículos</h3>
+                            <div id="top-clientes-articulos" style="font-size: 0.9rem; line-height: 1.6;"></div>
+                        </div>
+                        <div class="card" style="margin-bottom:0;">
+                            <h3 style="color:var(--secondary-color); margin-bottom:12px;">Top 3 Clientes Mayor Ganancia</h3>
+                            <div id="top-clientes-ganancias" style="font-size: 0.9rem; line-height: 1.6;"></div>
+                        </div>
+                    </div>
+
+                    <div class="charts-grid" style="margin-top: 25px;">
                         <div class="chart-card">
                             <h3>Tipos de Venta (Participación y Cantidad)</h3>
                             <canvas id="chartTiposVenta"></canvas>
@@ -532,18 +582,18 @@
 
                     <div class="card">
                         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; flex-wrap: wrap; gap: 10px;">
-                            <h3>Listado de Clientes</h3>
+                            <h3>Listado de Clientes y Acumulados</h3>
                             <button class="btn-excel" onclick="exportarClientesExcel()">📥 Exportar Excel</button>
                         </div>
 
                         <div class="form-grid" style="margin-bottom: 15px;">
                             <div class="form-group">
                                 <label>Buscar por Nombre</label>
-                                <input type="text" id="buscar-cliente-nombre" oninput="renderClientes()" placeholder="Escribe para filtrar por nombre...">
+                                <input type="text" id="buscar-cliente-nombre" oninput="renderClientes()" placeholder="Filtro nombre...">
                             </div>
                             <div class="form-group">
                                 <label>Buscar por Celular</label>
-                                <input type="text" id="buscar-cliente-celular" oninput="renderClientes()" placeholder="Escribe para filtrar por celular...">
+                                <input type="text" id="buscar-cliente-celular" oninput="renderClientes()" placeholder="Filtro celular...">
                             </div>
                         </div>
 
@@ -551,10 +601,12 @@
                             <table>
                                 <thead>
                                     <tr>
-                                        <th>Fecha Creación</th>
+                                        <th>Fecha</th>
                                         <th>Nombre</th>
                                         <th>Teléfono</th>
-                                        <th>Observaciones</th>
+                                        <th>Total Ventas ($)</th>
+                                        <th>Total Abonos ($)</th>
+                                        <th>Saldo Total ($)</th>
                                         <th>Acciones</th>
                                     </tr>
                                 </thead>
@@ -571,11 +623,10 @@
                     <h1>Módulo de Ventas</h1>
                     
                     <div class="card">
-                        <h3 id="titulo-form-venta">Registrar Venta de Accesorios</h3>
+                        <h3 id="titulo-form-venta">Registrar Venta de Accesorios (Múltiples Artículos)</h3>
                         <form id="form-venta" onsubmit="guardarVenta(event)">
                             <input type="hidden" id="venta-id-edit">
                             
-                            <!-- Buscadores integrados en el formulario de ventas para filtrar clientas -->
                             <div class="form-grid" style="background: #fdf2f8; padding: 12px; border-radius: 8px; border: 1px dashed var(--primary-color); margin-bottom: 15px;">
                                 <div class="form-group">
                                     <label>Filtrar Clientes por Nombre</label>
@@ -588,41 +639,23 @@
                             </div>
 
                             <div class="form-grid">
-                                <div class="form-group">
+                                <div class="form-group" style="grid-column: span 2;">
                                     <label for="venta-cliente">Clienta</label>
                                     <select id="venta-cliente" required>
                                         <option value="">Seleccione una clienta</option>
                                     </select>
                                 </div>
-                                <div class="form-group">
-                                    <label for="venta-tipo-accesorio">Tipo de Accesorio</label>
-                                    <select id="venta-tipo-accesorio" required>
-                                        <option value="">Seleccione accesorio</option>
-                                        <option value="Anillo">Anillo</option>
-                                        <option value="Arete">Arete</option>
-                                        <option value="Pulsera">Pulsera</option>
-                                        <option value="Cadena">Cadena</option>
-                                        <option value="Set">Set</option>
-                                        <option value="Simulador">Simulador</option>
-                                        <option value="Brazalete">Brazalete</option>
-                                    </select>
+                            </div>
+
+                            <div style="margin-bottom: 15px;">
+                                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                                    <label style="font-weight: bold; color: var(--text-color);">Artículos de la Venta:</label>
+                                    <button type="button" class="btn-success" style="padding: 5px 12px; font-size: 0.85rem;" onclick="agregarItemVentaFila()">➕ Adicionar Artículo</button>
                                 </div>
-                                <div class="form-group">
-                                    <label for="venta-cantidad">Cantidad</label>
-                                    <input type="number" id="venta-cantidad" value="1" min="1" required placeholder="Ej. 1">
-                                </div>
-                                <div class="form-group">
-                                    <label for="venta-valor">Valor Venta ($)</label>
-                                    <input type="number" id="venta-valor" required oninput="calcularGananciaVenta()" placeholder="Ej. 50000">
-                                </div>
-                                <div class="form-group">
-                                    <label for="venta-costo">Valor de Costo ($)</label>
-                                    <input type="number" id="venta-costo" required oninput="calcularGananciaVenta()" placeholder="Ej. 20000">
-                                </div>
-                                <div class="form-group">
-                                    <label for="venta-ganancia-display">Ganancia Calculada ($)</label>
-                                    <input type="text" id="venta-ganancia-display" readonly style="background: #e9ecef;" value="$0">
-                                </div>
+                                <div id="items-venta-container"></div>
+                            </div>
+
+                            <div class="form-grid">
                                 <div class="form-group">
                                     <label for="venta-estado">Estado del Pago</label>
                                     <select id="venta-estado" required onchange="toggleEstadoPagoVenta()">
@@ -648,11 +681,12 @@
                                     </select>
                                 </div>
                                 <div class="form-group" style="grid-column: span 2;">
-                                    <label for="venta-observacion">Observación</label>
+                                    <label for="venta-observacion">Observación General</label>
                                     <textarea id="venta-observacion" rows="2" placeholder="Detalles adicionales..."></textarea>
                                 </div>
                             </div>
-                            <div style="display: flex; gap: 10px;">
+
+                            <div style="display: flex; gap: 10px; margin-top: 15px;">
                                 <button type="submit" class="btn-success" id="btn-guardar-venta">Registrar Venta</button>
                                 <button type="button" class="btn-secondary" id="btn-cancelar-venta" style="display:none;" onclick="cancelarEdicionVenta()">Cancelar</button>
                             </div>
@@ -661,7 +695,7 @@
 
                     <div class="card">
                         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; flex-wrap: wrap; gap: 10px;">
-                            <h3>Historial de Ventas</h3>
+                            <h3>Historial de Ventas (Agrupado por Cliente)</h3>
                             <button class="btn-excel" onclick="exportarVentasExcel()">📥 Exportar Excel</button>
                         </div>
 
@@ -674,14 +708,6 @@
                                 <label>Buscar por Celular</label>
                                 <input type="text" id="filtro-venta-celular" oninput="renderVentas()" placeholder="Celular...">
                             </div>
-                            <div class="form-group" style="flex: 1; min-width: 140px;">
-                                <label>Mes de Venta</label>
-                                <input type="month" id="filtro-venta-mes" onchange="renderVentas()">
-                            </div>
-                            <div class="form-group" style="flex: 1; min-width: 140px;">
-                                <label>Fecha de Venta</label>
-                                <input type="date" id="filtro-venta-fecha" onchange="renderVentas()">
-                            </div>
                             <div>
                                 <button class="btn-secondary" onclick="limpiarFiltrosVentas()" style="background-color: var(--danger);">Limpiar</button>
                             </div>
@@ -691,23 +717,17 @@
                             <table>
                                 <thead>
                                     <tr>
-                                        <th>Fecha Venta</th>
-                                        <th>Cliente</th>
+                                        <th>Fecha / Cliente</th>
                                         <th>Celular</th>
-                                        <th>Accesorio</th>
-                                        <th>Cant.</th>
-                                        <th>Valor ($)</th>
-                                        <th>Costo ($)</th>
-                                        <th>Ganancia ($)</th>
+                                        <th>Artículos Comprados</th>
+                                        <th>Valor Total ($)</th>
                                         <th>Abonos ($)</th>
                                         <th>Saldo ($)</th>
                                         <th>Estado</th>
                                         <th>Acciones</th>
                                     </tr>
                                 </thead>
-                                <tbody id="tabla-ventas">
-                                    <!-- Dinámico -->
-                                </tbody>
+                                <tbody id="tabla-ventas"></tbody>
                             </table>
                         </div>
                     </div>
@@ -719,7 +739,7 @@
 
                     <div class="card">
                         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; flex-wrap: wrap; gap: 10px;">
-                            <h3>Cuentas Pendientes de Cobro</h3>
+                            <h3>Saldos Pendientes Agrupados por Cliente</h3>
                         </div>
 
                         <div class="filters-bar">
@@ -731,14 +751,6 @@
                                 <label>Buscar por Celular</label>
                                 <input type="text" id="filtro-cobro-celular" oninput="renderCobros()" placeholder="Celular...">
                             </div>
-                            <div class="form-group" style="flex: 1; min-width: 140px;">
-                                <label>Mes de Venta</label>
-                                <input type="month" id="filtro-cobro-mes" onchange="renderCobros()">
-                            </div>
-                            <div class="form-group" style="flex: 1; min-width: 140px;">
-                                <label>Fecha de Venta</label>
-                                <input type="date" id="filtro-cobro-fecha" onchange="renderCobros()">
-                            </div>
                             <div>
                                 <button class="btn-secondary" onclick="limpiarFiltrosCobros()" style="background-color: var(--danger);">Limpiar</button>
                             </div>
@@ -748,20 +760,14 @@
                             <table>
                                 <thead>
                                     <tr>
-                                        <th>Fecha Venta</th>
                                         <th>Cliente</th>
                                         <th>Celular</th>
-                                        <th>Accesorio</th>
-                                        <th>Cant.</th>
-                                        <th>Valor Venta</th>
-                                        <th>Abonos</th>
-                                        <th>Saldo Pendiente</th>
-                                        <th>Acciones Rápidas (Abonar / Cobrar)</th>
+                                        <th>Ventas con Saldo</th>
+                                        <th>Total Deuda Pendiente ($)</th>
+                                        <th>Acciones con Iconos</th>
                                     </tr>
                                 </thead>
-                                <tbody id="tabla-cobros">
-                                    <!-- Dinámico -->
-                                </tbody>
+                                <tbody id="tabla-cobros"></tbody>
                             </table>
                         </div>
                     </div>
@@ -776,12 +782,8 @@
         <div class="modal-content">
             <span class="close-modal" onclick="cerrarModalCliente()">&times;</span>
             <h3 id="modal-cliente-nombre" style="color: var(--primary-color); margin-bottom: 15px;">Detalle de Cuenta</h3>
-            <div id="modal-cliente-info" style="margin-bottom: 20px; font-size: 0.95rem; line-height: 1.5;">
-                <!-- Dinámico -->
-            </div>
-            <div id="modal-cliente-acciones">
-                <!-- Dinámico -->
-            </div>
+            <div id="modal-cliente-info" style="margin-bottom: 20px; font-size: 0.95rem; line-height: 1.5;"></div>
+            <div id="modal-cliente-acciones"></div>
         </div>
     </div>
 
@@ -827,9 +829,7 @@
                             <th>Acción</th>
                         </tr>
                     </thead>
-                    <tbody id="tabla-abonos-detalle">
-                        <!-- Dinámico -->
-                    </tbody>
+                    <tbody id="tabla-abonos-detalle"></tbody>
                 </table>
             </div>
         </div>
@@ -856,11 +856,7 @@
 
         function togglePasswordVisibility() {
             const pwdInput = document.getElementById('auth-password');
-            if (pwdInput.type === 'password') {
-                pwdInput.type = 'text';
-            } else {
-                pwdInput.type = 'password';
-            }
+            pwdInput.type = pwdInput.type === 'password' ? 'text' : 'password';
         }
 
         function handleLogin(e) {
@@ -902,23 +898,28 @@
                 renderClientes();
                 cargarSelectClientes();
                 actualizarDashboard();
-            }, error => {
-                console.error("Error al sincronizar clientes:", error);
-            });
+            }, error => console.error("Error clientes:", error));
 
             db.collection('ventas').onSnapshot(snapshot => {
                 dbVentas = [];
                 snapshot.forEach(doc => {
                     let data = doc.data();
                     if (!data.abonos) data.abonos = [];
+                    if (!data.items && data.tipoAccesorio) {
+                        data.items = [{
+                            accesorio: data.tipoAccesorio,
+                            cantidad: data.cantidad || 1,
+                            valorUnitario: data.valor || 0,
+                            costoUnitario: data.costo || 0
+                        }];
+                    }
                     dbVentas.push({ id: doc.id, ...data });
                 });
                 renderVentas();
                 renderCobros();
+                renderClientes(); // Para actualizar acumulados en tiempo real
                 actualizarDashboard();
-            }, error => {
-                console.error("Error al sincronizar ventas:", error);
-            });
+            }, error => console.error("Error ventas:", error));
         }
 
         function switchModule(moduleId) {
@@ -933,6 +934,9 @@
                 cargarSelectClientes();
                 document.getElementById('form-filtro-cli-nombre').value = '';
                 document.getElementById('form-filtro-cli-celular').value = '';
+                if(document.querySelectorAll('.item-venta-row').length === 0) {
+                    agregarItemVentaFila();
+                }
             }
         }
 
@@ -962,8 +966,16 @@
             }
         }
 
+        function eliminarCliente(id) {
+            if (!confirm('¿Deseas eliminar esta clienta? Se eliminará de la base de datos.')) return;
+            db.collection('clientes').doc(id).delete().then(() => {
+                alert('Clienta eliminada correctamente.');
+            }).catch(err => alert('Error al eliminar: ' + err.message));
+        }
+
         function renderClientes() {
             const tbody = document.getElementById('tabla-clientes');
+            if(!tbody) return;
             tbody.innerHTML = '';
 
             const bNombre = document.getElementById('buscar-cliente-nombre').value.toLowerCase();
@@ -976,22 +988,40 @@
             });
 
             if (filtrados.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="5" style="text-align:center; color:var(--secondary-color);">No se encontraron clientas.</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="7" style="text-align:center; color:var(--secondary-color);">No se encontraron clientas.</td></tr>`;
                 return;
             }
 
             filtrados.forEach(c => {
+                // Relación correcta por clienteId
+                let ventasCli = dbVentas.filter(v => v.clienteId === c.id);
+                
+                let totalVentas = ventasCli.reduce((acc, v) => {
+                    let vTotal = v.valor || (v.items || []).reduce((sum, it) => sum + (it.valorUnitario * it.cantidad), 0);
+                    return acc + vTotal;
+                }, 0);
+
+                let totalAbonos = ventasCli.reduce((acc, v) => {
+                    let abV = (v.abonos || []).reduce((a, b) => a + b.monto, 0);
+                    return acc + abV;
+                }, 0);
+
+                let saldoTotal = totalVentas - totalAbonos;
+
                 const msgBienvenida = encodeURIComponent(`Hola ${c.nombre}, te damos la más cordial bienvenida a Inspiración Boutique Accesorios. ¡Es un placer tenerte con nosotras para realzar tu estilo! ✨`);
                 tbody.innerHTML += `
                     <tr>
                         <td>${c.fechaCreacion || 'N/A'}</td>
                         <td><strong>${c.nombre}</strong></td>
                         <td>${c.telefono}</td>
-                        <td>${c.observaciones || ''}</td>
+                        <td>$${totalVentas.toLocaleString()}</td>
+                        <td>$${totalAbonos.toLocaleString()}</td>
+                        <td><strong style="color: ${saldoTotal > 0 ? 'var(--danger)' : 'var(--success)'};">$${saldoTotal.toLocaleString()}</strong></td>
                         <td>
-                            <div style="display: flex; gap: 5px; flex-wrap: wrap;">
-                                <button class="btn-secondary" style="padding: 5px 8px; font-size:0.8rem;" onclick="editarCliente('${c.id}')">Editar</button>
-                                <a href="https://wa.me/57${c.telefono}?text=${msgBienvenida}" target="_blank" class="btn-whatsapp">WhatsApp Bienvenida</a>
+                            <div style="display: flex; gap: 4px; align-items: center;">
+                                <button class="btn-icon" title="Editar" onclick="editarCliente('${c.id}')">✏️</button>
+                                <button class="btn-icon" title="Eliminar" onclick="eliminarCliente('${c.id}')">🗑️</button>
+                                <a href="https://wa.me/57${c.telefono}?text=${msgBienvenida}" target="_blank" class="btn-icon" title="WhatsApp Bienvenida" style="text-decoration:none;">💬</a>
                             </div>
                         </td>
                     </tr>
@@ -1021,21 +1051,30 @@
         }
 
         function exportarClientesExcel() {
-            let dataExport = dbClientes.map(c => ({
-                'Fecha Creación': c.fechaCreacion || '',
-                'Nombre': c.nombre,
-                'Teléfono': c.telefono,
-                'Observaciones': c.observaciones || ''
-            }));
+            let dataExport = dbClientes.map(c => {
+                let ventasCli = dbVentas.filter(v => v.clienteId === c.id);
+                let tv = ventasCli.reduce((acc, v) => acc + (v.valor || 0), 0);
+                let ta = ventasCli.reduce((acc, v) => acc + (v.abonos || []).reduce((a,b)=>a+b.monto,0), 0);
+                return {
+                    'Fecha Creación': c.fechaCreacion || '',
+                    'Nombre': c.nombre,
+                    'Teléfono': c.telefono,
+                    'Total Ventas': tv,
+                    'Total Abonos': ta,
+                    'Saldo Total': tv - ta,
+                    'Observaciones': c.observaciones || ''
+                };
+            });
             const ws = XLSX.utils.json_to_sheet(dataExport);
             const wb = XLSX.utils.book_new();
             XLSX.utils.book_append_sheet(wb, ws, "Clientes");
             XLSX.writeFile(wb, "Inspiracion_Boutique_Clientes.xlsx");
         }
 
-        // --- GESTIÓN VENTAS Y FILTRO DE CLIENTE EN FORMULARIO ---
+        // --- GESTIÓN VENTAS MULTI-ARTÍCULOS CON GANANCIA AUTOMÁTICA ---
         function cargarSelectClientes(filtrados = dbClientes) {
             const select = document.getElementById('venta-cliente');
+            if(!select) return;
             select.innerHTML = '<option value="">Seleccione una clienta</option>';
             filtrados.forEach(c => {
                 select.innerHTML += `<option value="${c.id}">${c.nombre} (${c.telefono})</option>`;
@@ -1045,7 +1084,6 @@
         function filtrarSelectClientesForm() {
             const fNombre = document.getElementById('form-filtro-cli-nombre').value.toLowerCase();
             const fCelular = document.getElementById('form-filtro-cli-celular').value.toLowerCase();
-
             let filtrados = dbClientes.filter(c => {
                 let matchN = (c.nombre || '').toLowerCase().includes(fNombre);
                 let matchC = (c.telefono || '').toLowerCase().includes(fCelular);
@@ -1054,11 +1092,73 @@
             cargarSelectClientes(filtrados);
         }
 
-        function calcularGananciaVenta() {
-            const valor = parseFloat(document.getElementById('venta-valor').value) || 0;
-            const costo = parseFloat(document.getElementById('venta-costo').value) || 0;
-            const ganancia = valor - costo;
-            document.getElementById('venta-ganancia-display').value = `$${ganancia.toLocaleString()}`;
+        function agregarItemVentaFila(itemData = null) {
+            const container = document.getElementById('items-venta-container');
+            const rowId = 'item_row_' + Date.now() + Math.random().toString(36).substr(2, 5);
+            
+            let cantidad = itemData ? itemData.cantidad : 1;
+            let valU = itemData ? itemData.valorUnitario : '';
+            let cosU = itemData ? itemData.costoUnitario : '';
+            let gananciaInicial = 0;
+            if (valU !== '' && cosU !== '') {
+                gananciaInicial = (valU - cosU) * cantidad;
+            }
+
+            const div = document.createElement('div');
+            div.className = 'item-venta-row';
+            div.id = rowId;
+            div.innerHTML = `
+                <div class="form-grid" style="grid-template-columns: 2fr 1fr 1fr 1fr 1.2fr auto; align-items: flex-end; gap: 10px;">
+                    <div class="form-group">
+                        <label>Tipo de Accesorio</label>
+                        <select class="item-accesorio" required>
+                            <option value="">Seleccione accesorio</option>
+                            <option value="Anillo">Anillo</option>
+                            <option value="Arete">Arete</option>
+                            <option value="Pulsera">Pulsera</option>
+                            <option value="Cadena">Cadena</option>
+                            <option value="Set">Set</option>
+                            <option value="Simulador">Simulador</option>
+                            <option value="Brazalete">Brazalete</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Cantidad</label>
+                        <input type="number" class="item-cantidad" value="${cantidad}" min="1" required oninput="calcularGananciaFila('${rowId}')">
+                    </div>
+                    <div class="form-group">
+                        <label>V. Unitario ($)</label>
+                        <input type="number" class="item-valor" value="${valU}" required placeholder="Ej. 50000" oninput="calcularGananciaFila('${rowId}')">
+                    </div>
+                    <div class="form-group">
+                        <label>C. Unitario ($)</label>
+                        <input type="number" class="item-costo" value="${cosU}" required placeholder="Ej. 20000" oninput="calcularGananciaFila('${rowId}')">
+                    </div>
+                    <div class="form-group">
+                        <label>Ganancia Item ($)</label>
+                        <input type="text" class="item-ganancia-display" readonly style="background: #e9ecef; font-weight:bold; color:var(--success);" value="$${gananciaInicial.toLocaleString()}">
+                    </div>
+                    <div class="form-group" style="justify-content: center;">
+                        <button type="button" class="btn-icon" style="background-color: var(--danger); color: white;" onclick="document.getElementById('${rowId}').remove();" title="Eliminar ítem">🗑️</button>
+                    </div>
+                </div>
+            `;
+            container.appendChild(div);
+
+            if(itemData && itemData.accesorio) {
+                div.querySelector('.item-accesorio').value = itemData.accesorio;
+            }
+        }
+
+        function calcularGananciaFila(rowId) {
+            const row = document.getElementById(rowId);
+            if(!row) return;
+            const cantidad = parseFloat(row.querySelector('.item-cantidad').value) || 0;
+            const valorU = parseFloat(row.querySelector('.item-valor').value) || 0;
+            const costoU = parseFloat(row.querySelector('.item-costo').value) || 0;
+            
+            const gananciaTotalItem = (valorU - costoU) * cantidad;
+            row.querySelector('.item-ganancia-display').value = `$${gananciaTotalItem.toLocaleString()}`;
         }
 
         function toggleEstadoPagoVenta() {
@@ -1081,14 +1181,32 @@
             e.preventDefault();
             const idEdit = document.getElementById('venta-id-edit').value;
             const clienteId = document.getElementById('venta-cliente').value;
-            const tipoAccesorio = document.getElementById('venta-tipo-accesorio').value;
-            const cantidad = parseInt(document.getElementById('venta-cantidad').value) || 1;
-            const valor = parseFloat(document.getElementById('venta-valor').value) || 0;
-            const costo = parseFloat(document.getElementById('venta-costo').value) || 0;
-            const ganancia = valor - costo;
             const estado = document.getElementById('venta-estado').value;
             const observacion = document.getElementById('venta-observacion').value.trim();
             const fechaVenta = new Date().toISOString().split('T')[0];
+
+            const rows = document.querySelectorAll('.item-venta-row');
+            if(rows.length === 0) {
+                alert('Debes agregar al menos un artículo a la venta.');
+                return;
+            }
+
+            let items = [];
+            let totalValorVenta = 0;
+            let totalCostoVenta = 0;
+
+            rows.forEach(r => {
+                let accesorio = r.querySelector('.item-accesorio').value;
+                let cantidad = parseInt(r.querySelector('.item-cantidad').value) || 1;
+                let valorUnitario = parseFloat(r.querySelector('.item-valor').value) || 0;
+                let costoUnitario = parseFloat(r.querySelector('.item-costo').value) || 0;
+
+                items.push({ accesorio, cantidad, valorUnitario, costoUnitario });
+                totalValorVenta += (valorUnitario * cantidad);
+                totalCostoVenta += (costoUnitario * cantidad);
+            });
+
+            let gananciaTotal = totalValorVenta - totalCostoVenta;
 
             let abonos = [];
             let abonoInicial = parseFloat(document.getElementById('venta-abono-inicial').value) || 0;
@@ -1096,7 +1214,7 @@
             let medioPago = document.getElementById('venta-medio-pago').value;
 
             if (estado === 'Pagado') {
-                abonoInicial = valor;
+                abonoInicial = totalValorVenta;
             }
 
             if (abonoInicial > 0) {
@@ -1109,7 +1227,7 @@
             }
 
             let totalAbonado = abonos.reduce((acc, curr) => acc + curr.monto, 0);
-            let saldo = valor - totalAbonado;
+            let saldo = totalValorVenta - totalAbonado;
             let estadoReal = saldo <= 0 ? 'Pagado' : 'Pendiente';
 
             const clienteObj = dbClientes.find(c => c.id === clienteId);
@@ -1120,11 +1238,10 @@
                 clienteId,
                 clienteNombre,
                 clienteTelefono,
-                tipoAccesorio,
-                cantidad,
-                valor,
-                costo,
-                ganancia,
+                items,
+                valor: totalValorVenta,
+                costo: totalCostoVenta,
+                ganancia: gananciaTotal,
                 estado: estadoReal,
                 observacion,
                 fechaVenta: idEdit ? dbVentas.find(v=>v.id===idEdit).fechaVenta : fechaVenta,
@@ -1136,7 +1253,7 @@
                 if (ventaOriginal && ventaOriginal.abonos && ventaOriginal.abonos.length > 0) {
                     ventaData.abonos = ventaOriginal.abonos;
                     let totAbono = ventaData.abonos.reduce((a,b)=>a+b.monto,0);
-                    ventaData.estado = (valor - totAbono) <= 0 ? 'Pagado' : 'Pendiente';
+                    ventaData.estado = (totalValorVenta - totAbono) <= 0 ? 'Pagado' : 'Pendiente';
                 }
                 db.collection('ventas').doc(idEdit).update(ventaData).then(() => {
                     cancelarEdicionVenta();
@@ -1145,57 +1262,61 @@
             } else {
                 db.collection('ventas').add(ventaData).then(() => {
                     document.getElementById('form-venta').reset();
-                    document.getElementById('venta-cantidad').value = '1';
-                    document.getElementById('venta-ganancia-display').value = '$0';
+                    document.getElementById('items-venta-container').innerHTML = '';
+                    agregarItemVentaFila();
                     alert('¡Venta registrada con éxito!');
                 }).catch(err => alert('Error: ' + err.message));
             }
         }
 
+        function eliminarVenta(id) {
+            if (!confirm('¿Deseas eliminar esta venta del registro?')) return;
+            db.collection('ventas').doc(id).delete().then(() => {
+                alert('Venta eliminada correctamente.');
+            }).catch(err => alert('Error al eliminar: ' + err.message));
+        }
+
         function renderVentas() {
             const tbody = document.getElementById('tabla-ventas');
+            if(!tbody) return;
             tbody.innerHTML = '';
 
             const bCliente = document.getElementById('filtro-venta-cliente').value.toLowerCase();
             const bCelular = document.getElementById('filtro-venta-celular').value.toLowerCase();
-            const bMes = document.getElementById('filtro-venta-mes').value;
-            const bFecha = document.getElementById('filtro-venta-fecha').value;
 
             let filtradas = dbVentas.filter(v => {
                 let matchCliente = (v.clienteNombre || '').toLowerCase().includes(bCliente);
                 let matchCel = (v.clienteTelefono || '').toLowerCase().includes(bCelular);
-                let matchMes = bMes ? (v.fechaVenta || '').startsWith(bMes) : true;
-                let matchFecha = bFecha ? (v.fechaVenta || '') === bFecha : true;
-                return matchCliente && matchCel && matchMes && matchFecha;
+                return matchCliente && matchCel;
             });
 
             if (filtradas.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="12" style="text-align:center; color:var(--secondary-color);">No hay ventas registradas.</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="8" style="text-align:center; color:var(--secondary-color);">No hay ventas registradas.</td></tr>`;
                 return;
             }
 
             filtradas.forEach(v => {
                 let totalAbonado = (v.abonos || []).reduce((acc, curr) => acc + curr.monto, 0);
-                let saldo = v.valor - totalAbonado;
+                let vTotal = v.valor || (v.items || []).reduce((sum, it) => sum + (it.valorUnitario * it.cantidad), 0);
+                let saldo = vTotal - totalAbonado;
                 let estadoBadge = saldo <= 0 ? '<span class="badge badge-paid">Pagado</span>' : '<span class="badge badge-pending">Pendiente</span>';
+
+                let descItems = (v.items || []).map(i => `${i.cantidad}x ${i.accesorio} ($${(i.valorUnitario*i.cantidad).toLocaleString()})`).join(', ');
 
                 tbody.innerHTML += `
                     <tr>
-                        <td>${v.fechaVenta}</td>
-                        <td><strong>${v.clienteNombre || 'N/A'}</strong></td>
+                        <td><strong>${v.fechaVenta}</strong><br><span style="color:var(--primary-color);">${v.clienteNombre || 'N/A'}</span></td>
                         <td>${v.clienteTelefono || 'N/A'}</td>
-                        <td>${v.tipoAccesorio}</td>
-                        <td>${v.cantidad || 1}</td>
-                        <td>$${v.valor.toLocaleString()}</td>
-                        <td>$${v.costo.toLocaleString()}</td>
-                        <td>$${v.ganancia.toLocaleString()}</td>
+                        <td><small>${descItems}</small></td>
+                        <td>$${vTotal.toLocaleString()}</td>
                         <td>$${totalAbonado.toLocaleString()}</td>
                         <td><strong>$${saldo.toLocaleString()}</strong></td>
                         <td>${estadoBadge}</td>
                         <td>
-                            <div style="display: flex; gap: 5px; flex-wrap: wrap;">
-                                <button class="btn-secondary" style="padding: 4px 8px; font-size:0.75rem;" onclick="abrirModalAbonos('${v.id}')">Abonos</button>
-                                <button class="btn-secondary" style="padding: 4px 8px; font-size:0.75rem;" onclick="editarVenta('${v.id}')">Editar</button>
+                            <div style="display: flex; gap: 4px; align-items: center;">
+                                <button class="btn-icon" title="Ver/Registrar Abonos" onclick="abrirModalAbonos('${v.id}')">💵</button>
+                                <button class="btn-icon" title="Editar" onclick="editarVenta('${v.id}')">✏️</button>
+                                <button class="btn-icon" title="Eliminar" onclick="eliminarVenta('${v.id}')">🗑️</button>
                             </div>
                         </td>
                     </tr>
@@ -1208,51 +1329,61 @@
             if (!v) return;
             document.getElementById('venta-id-edit').value = v.id;
             document.getElementById('venta-cliente').value = v.clienteId || '';
-            document.getElementById('venta-tipo-accesorio').value = v.tipoAccesorio;
-            document.getElementById('venta-cantidad').value = v.cantidad || 1;
-            document.getElementById('venta-valor').value = v.valor;
-            document.getElementById('venta-costo').value = v.costo;
-            calcularGananciaVenta();
             document.getElementById('venta-estado').value = v.estado;
             document.getElementById('venta-observacion').value = v.observacion || '';
+            
+            const container = document.getElementById('items-venta-container');
+            container.innerHTML = '';
+            if(v.items && v.items.length > 0) {
+                v.items.forEach(it => agregarItemVentaFila(it));
+            } else {
+                agregarItemVentaFila({ accesorio: v.tipoAccesorio, cantidad: v.cantidad||1, valorUnitario: v.valor, costoUnitario: v.costo });
+            }
+
             document.getElementById('titulo-form-venta').innerText = 'Editar Venta';
             document.getElementById('btn-guardar-venta').innerText = 'Actualizar Venta';
             document.getElementById('btn-cancelar-venta').style.display = 'inline-block';
             toggleEstadoPagoVenta();
+            switchModuleByName('ventas');
             window.scrollTo({top: 0, behavior: 'smooth'});
+        }
+
+        function switchModuleByName(mod) {
+            document.querySelectorAll('.module').forEach(m => m.classList.remove('active'));
+            document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+            document.getElementById(mod).classList.add('active');
         }
 
         function cancelarEdicionVenta() {
             document.getElementById('form-venta').reset();
             document.getElementById('venta-id-edit').value = '';
-            document.getElementById('venta-cantidad').value = '1';
-            document.getElementById('venta-ganancia-display').value = '$0';
-            document.getElementById('titulo-form-venta').innerText = 'Registrar Venta de Accesorios';
+            document.getElementById('titulo-form-venta').innerText = 'Registrar Venta de Accesorios (Múltiples Artículos)';
             document.getElementById('btn-guardar-venta').innerText = 'Registrar Venta';
             document.getElementById('btn-cancelar-venta').style.display = 'none';
+            document.getElementById('items-venta-container').innerHTML = '';
+            agregarItemVentaFila();
             toggleEstadoPagoVenta();
         }
 
         function limpiarFiltrosVentas() {
             document.getElementById('filtro-venta-cliente').value = '';
             document.getElementById('filtro-venta-celular').value = '';
-            document.getElementById('filtro-venta-mes').value = '';
-            document.getElementById('filtro-venta-fecha').value = '';
             renderVentas();
         }
 
         function exportarVentasExcel() {
             let dataExport = dbVentas.map(v => {
                 let totAbono = (v.abonos || []).reduce((a,b)=>a+b.monto,0);
-                let saldo = v.valor - totAbono;
+                let vTotal = v.valor || 0;
+                let saldo = vTotal - totAbono;
+                let descItems = (v.items || []).map(i => `${i.cantidad}x ${i.accesorio}`).join('; ');
                 return {
                     'Fecha Venta': v.fechaVenta,
                     'Cliente': v.clienteNombre,
                     'Celular': v.clienteTelefono,
-                    'Accesorio': v.tipoAccesorio,
-                    'Cantidad': v.cantidad || 1,
-                    'Valor Venta': v.valor,
-                    'Costo': v.costo,
+                    'Artículos': descItems,
+                    'Valor Total': vTotal,
+                    'Costo Total': v.costo,
                     'Ganancia': v.ganancia,
                     'Total Abonado': totAbono,
                     'Saldo Pendiente': saldo,
@@ -1273,8 +1404,9 @@
 
             document.getElementById('abono-venta-id').value = ventaId;
             let totAbono = (v.abonos || []).reduce((a,b)=>a+b.monto,0);
-            let saldo = v.valor - totAbono;
-            document.getElementById('modal-abono-venta-info').innerText = `Cliente: ${v.clienteNombre} | Accesorio: ${v.tipoAccesorio} (Cant: ${v.cantidad || 1}) | Valor: $${v.valor.toLocaleString()} | Saldo: $${saldo.toLocaleString()}`;
+            let vTotal = v.valor || 0;
+            let saldo = vTotal - totAbono;
+            document.getElementById('modal-abono-venta-info').innerText = `Cliente: ${v.clienteNombre} | Valor: $${vTotal.toLocaleString()} | Saldo: $${saldo.toLocaleString()}`;
             document.getElementById('nuevo-abono-fecha').value = new Date().toISOString().split('T')[0];
             document.getElementById('nuevo-abono-monto').value = '';
 
@@ -1299,7 +1431,7 @@
                         <td>${ab.fecha}</td>
                         <td>$${ab.monto.toLocaleString()}</td>
                         <td>${ab.medio}</td>
-                        <td><button class="btn-secondary" style="padding: 2px 6px; font-size:0.75rem; background-color: var(--danger);" onclick="eliminarAbono('${v.id}', ${ab.id})">Eliminar</button></td>
+                        <td><button class="btn-icon" style="color:var(--danger);" onclick="eliminarAbono('${v.id}', ${ab.id})" title="Eliminar abono">🗑️</button></td>
                     </tr>
                 `;
             });
@@ -1316,21 +1448,14 @@
             if (!v) return;
 
             let abonos = v.abonos || [];
-            abonos.push({
-                id: Date.now(),
-                monto,
-                fecha,
-                medio
-            });
+            abonos.push({ id: Date.now(), monto, fecha, medio });
 
             let totAbono = abonos.reduce((a,b)=>a+b.monto,0);
-            let saldo = v.valor - totAbono;
+            let vTotal = v.valor || 0;
+            let saldo = vTotal - totAbono;
             let estado = saldo <= 0 ? 'Pagado' : 'Pendiente';
 
-            db.collection('ventas').doc(ventaId).update({
-                abonos,
-                estado
-            }).then(() => {
+            db.collection('ventas').doc(ventaId).update({ abonos, estado }).then(() => {
                 alert('¡Abono registrado con éxito!');
                 document.getElementById('form-nuevo-abono').reset();
                 document.getElementById('nuevo-abono-fecha').value = new Date().toISOString().split('T')[0];
@@ -1348,13 +1473,11 @@
 
             let abonos = (v.abonos || []).filter(a => a.id !== abonoId);
             let totAbono = abonos.reduce((a,b)=>a+b.monto,0);
-            let saldo = v.valor - totAbono;
+            let vTotal = v.valor || 0;
+            let saldo = vTotal - totAbono;
             let estado = saldo <= 0 ? 'Pagado' : 'Pendiente';
 
-            db.collection('ventas').doc(ventaId).update({
-                abonos,
-                estado
-            }).then(() => {
+            db.collection('ventas').doc(ventaId).update({ abonos, estado }).then(() => {
                 alert('Abono eliminado.');
                 const vUpdated = dbVentas.find(item => item.id === ventaId);
                 renderTablaAbonosDetalle(vUpdated);
@@ -1366,56 +1489,61 @@
         // --- MÓDULO COBROS ---
         function renderCobros() {
             const tbody = document.getElementById('tabla-cobros');
+            if(!tbody) return;
             tbody.innerHTML = '';
 
             const bCliente = document.getElementById('filtro-cobro-cliente').value.toLowerCase();
             const bCelular = document.getElementById('filtro-cobro-celular').value.toLowerCase();
-            const bMes = document.getElementById('filtro-cobro-mes').value;
-            const bFecha = document.getElementById('filtro-cobro-fecha').value;
 
             let pendientes = dbVentas.filter(v => {
                 let totAbono = (v.abonos || []).reduce((a,b)=>a+b.monto,0);
-                let saldo = v.valor - totAbono;
-                return saldo > 0;
+                let vTotal = v.valor || 0;
+                return (vTotal - totAbono) > 0;
             });
 
-            let filtradas = pendientes.filter(v => {
-                let matchCliente = (v.clienteNombre || '').toLowerCase().includes(bCliente);
-                let matchCel = (v.clienteTelefono || '').toLowerCase().includes(bCelular);
-                let matchMes = bMes ? (v.fechaVenta || '').startsWith(bMes) : true;
-                let matchFecha = bFecha ? (v.fechaVenta || '') === bFecha : true;
-                return matchCliente && matchCel && matchMes && matchFecha;
+            let agrupados = {};
+            pendientes.forEach(v => {
+                let cid = v.clienteId || v.clienteNombre;
+                if(!agrupados[cid]) {
+                    agrupados[cid] = {
+                        clienteId: v.clienteId,
+                        clienteNombre: v.clienteNombre,
+                        clienteTelefono: v.clienteTelefono,
+                        ventasPendientes: []
+                    };
+                }
+                let totAbono = (v.abonos || []).reduce((a,b)=>a+b.monto,0);
+                let saldoVenta = (v.valor || 0) - totAbono;
+                agrupados[cid].ventasPendientes.push({ ...v, saldoVenta });
             });
 
-            if (filtradas.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="9" style="text-align:center; color:var(--secondary-color);">¡Excelente! No hay cuentas pendientes por cobrar.</td></tr>`;
+            let listaClientesCobro = Object.values(agrupados).filter(item => {
+                let matchCli = (item.clienteNombre || '').toLowerCase().includes(bCliente);
+                let matchCel = (item.clienteTelefono || '').toLowerCase().includes(bCelular);
+                return matchCli && matchCel;
+            });
+
+            if (listaClientesCobro.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="5" style="text-align:center; color:var(--secondary-color);">¡Excelente! No hay cuentas pendientes por cobrar.</td></tr>`;
                 return;
             }
 
-            filtradas.forEach(v => {
-                let totAbono = (v.abonos || []).reduce((acc, curr) => acc + curr.monto, 0);
-                let saldo = v.valor - totAbono;
+            listaClientesCobro.forEach(item => {
+                let totalDeudaCliente = item.ventasPendientes.reduce((acc, vp) => acc + vp.saldoVenta, 0);
+                let listaVentasTexto = item.ventasPendientes.map(vp => `• ${vp.fechaVenta}: Saldo $${vp.saldoVenta.toLocaleString()}`).join('<br>');
 
-                const textoWhatsApp = encodeURIComponent(`Hola ${v.clienteNombre}, te saludamos de Inspiración Boutique Accesorios para recordarte tu saldo pendiente de $${saldo.toLocaleString()} por concepto de: ${v.tipoAccesorio} (Cant: ${v.cantidad || 1}). Puedes realizar tu pago a través de nuestros medios oficiales:
-• Nequi: 3004935132
-• Daviplata: 3232332218
-• Cuenta de Ahorro Bancolombia: 08555118547
-¡Muchas gracias! ✨`);
+                const textoWhatsApp = encodeURIComponent(`Hola ${item.clienteNombre}, te saludamos de Inspiración Boutique Accesorios para recordarte tu saldo pendiente total de $${totalDeudaCliente.toLocaleString()}. Puedes realizar tu pago por Nequi (3004935132), Daviplata (3232332218) o Bancolombia (08555118547). ¡Gracias! ✨`);
 
                 tbody.innerHTML += `
-                    <tr class="clickable-row" onclick="abrirModalCliente('${v.id}')">
-                        <td>${v.fechaVenta}</td>
-                        <td><strong>${v.clienteNombre}</strong></td>
-                        <td>${v.clienteTelefono}</td>
-                        <td>${v.tipoAccesorio}</td>
-                        <td>${v.cantidad || 1}</td>
-                        <td>$${v.valor.toLocaleString()}</td>
-                        <td>$${totAbono.toLocaleString()}</td>
-                        <td><strong style="color: var(--danger);">$${saldo.toLocaleString()}</strong></td>
-                        <td onclick="event.stopPropagation()">
-                            <div style="display: flex; gap: 5px; flex-wrap: wrap;">
-                                <button class="btn-secondary" style="padding: 5px 10px; font-size:0.8rem;" onclick="abrirModalAbonos('${v.id}')">Abonar</button>
-                                <a href="https://wa.me/57${v.clienteTelefono}?text=${textoWhatsApp}" target="_blank" class="btn-whatsapp">WhatsApp Cobro</a>
+                    <tr>
+                        <td><strong>${item.clienteNombre}</strong></td>
+                        <td>${item.clienteTelefono || 'N/A'}</td>
+                        <td><small>${listaVentasTexto}</small></td>
+                        <td><strong style="color: var(--danger);">$${totalDeudaCliente.toLocaleString()}</strong></td>
+                        <td>
+                            <div style="display: flex; gap: 6px; align-items: center;">
+                                <button class="btn-icon" title="Ver Detalle / Abonar" onclick="abrirModalClienteCobro('${item.clienteId}')">👁️</button>
+                                <a href="https://wa.me/57${item.clienteTelefono}?text=${textoWhatsApp}" target="_blank" class="btn-icon" title="Cobrar por WhatsApp" style="text-decoration:none;">💬</a>
                             </div>
                         </td>
                     </tr>
@@ -1423,41 +1551,36 @@
             });
         }
 
-        function limpiarFiltrosCobros() {
-            document.getElementById('filtro-cobro-cliente').value = '';
-            document.getElementById('filtro-cobro-celular').value = '';
-            document.getElementById('filtro-cobro-mes').value = '';
-            document.getElementById('filtro-cobro-fecha').value = '';
-            renderCobros();
-        }
+        function abrirModalClienteCobro(clienteId) {
+            let ventasCliente = dbVentas.filter(v => v.clienteId === clienteId);
+            let cObj = dbClientes.find(c => c.id === clienteId);
+            if (!cObj && ventasCliente.length === 0) return;
 
-        function abrirModalCliente(ventaId) {
-            const v = dbVentas.find(item => item.id === ventaId);
-            if (!v) return;
+            let nombre = cObj ? cObj.nombre : (ventasCliente[0]?.clienteNombre || 'Cliente');
+            let telefono = cObj ? cObj.telefono : (ventasCliente[0]?.clienteTelefono || '');
 
-            let totAbono = (v.abonos || []).reduce((a,b)=>a+b.monto,0);
-            let saldo = v.valor - totAbono;
+            let htmlInfo = `<p><strong>Teléfono:</strong> ${telefono}</p><hr style="margin:10px 0;">`;
+            let totalDeuda = 0;
 
-            document.getElementById('modal-cliente-nombre').innerText = `Detalle de Cuenta: ${v.clienteNombre}`;
-            document.getElementById('modal-cliente-info').innerHTML = `
-                <p><strong>Teléfono:</strong> ${v.clienteTelefono}</p>
-                <p><strong>Fecha de Venta:</strong> ${v.fechaVenta}</p>
-                <p><strong>Accesorio:</strong> ${v.tipoAccesorio} (Cantidad: ${v.cantidad || 1})</p>
-                <p><strong>Valor Total:</strong> $${v.valor.toLocaleString()}</p>
-                <p><strong>Total Abonado:</strong> $${totAbono.toLocaleString()}</p>
-                <p><strong>Saldo Pendiente:</strong> <span style="color:var(--danger); font-weight:bold;">$${saldo.toLocaleString()}</span></p>
-                <p><strong>Observación:</strong> ${v.observacion || 'Ninguna'}</p>
-            `;
+            ventasCliente.forEach(v => {
+                let totAbono = (v.abonos || []).reduce((a,b)=>a+b.monto,0);
+                let saldo = (v.valor || 0) - totAbono;
+                if(saldo > 0) {
+                    totalDeuda += saldo;
+                    let descItems = (v.items || []).map(i => `${i.cantidad}x ${i.accesorio}`).join(', ');
+                    htmlInfo += `
+                        <div style="background:#f8f9fa; padding:10px; border-radius:6px; margin-bottom:8px;">
+                            <p><strong>Fecha:</strong> ${v.fechaVenta} | <strong>Artículos:</strong> ${descItems}</p>
+                            <p><strong>Saldo Venta:</strong> <span style="color:var(--danger); font-weight:bold;">$${saldo.toLocaleString()}</span></p>
+                            <button class="btn-secondary" style="padding:4px 8px; font-size:0.75rem; margin-top:5px;" onclick="cerrarModalCliente(); abrirModalAbonos('${v.id}')">Gestionar Abonos</button>
+                        </div>
+                    `;
+                }
+            });
 
-            const textoWhatsApp = encodeURIComponent(`Hola ${v.clienteNombre}, te saludamos de Inspiración Boutique Accesorios para recordarte tu saldo pendiente de $${saldo.toLocaleString()} por concepto de: ${v.tipoAccesorio} (Cant: ${v.cantidad || 1}). Medios de pago:
-• Nequi: 3004935132
-• Daviplata: 3232332218
-• Bancolombia: 08555118547. ¡Gracias! ✨`);
-
-            document.getElementById('modal-cliente-acciones').innerHTML = `
-                <a href="https://wa.me/57${v.clienteTelefono}?text=${textoWhatsApp}" target="_blank" class="btn-whatsapp" style="width: 150px; text-align: center;">Cobrar por WhatsApp</a>
-            `;
-
+            document.getElementById('modal-cliente-nombre').innerText = `Cuentas de: ${nombre}`;
+            document.getElementById('modal-cliente-info').innerHTML = htmlInfo;
+            document.getElementById('modal-cliente-acciones').innerHTML = `<p><strong>Deuda Total: $${totalDeuda.toLocaleString()}</strong></p>`;
             document.getElementById('modal-detalle-cliente').style.display = 'flex';
         }
 
@@ -1465,7 +1588,13 @@
             document.getElementById('modal-detalle-cliente').style.display = 'none';
         }
 
-        // --- DASHBOARD Y MÉTRICAS ---
+        function limpiarFiltrosCobros() {
+            document.getElementById('filtro-cobro-cliente').value = '';
+            document.getElementById('filtro-cobro-celular').value = '';
+            renderCobros();
+        }
+
+        // --- DASHBOARD ---
         function aplicarFiltrosDashboard() {
             actualizarDashboard();
         }
@@ -1512,14 +1641,16 @@
 
             let totalInversion = ventasFiltradas.reduce((acc, curr) => acc + (curr.costo || 0), 0);
             let totalGanancia = ventasFiltradas.reduce((acc, curr) => acc + (curr.ganancia || 0), 0);
-            let totalVendido = ventasFiltradas.reduce((acc, curr) => acc + (curr.valor || 0), 0);
+            let totalVendido = ventasFiltradas.reduce((acc, curr) => {
+                let vt = curr.valor || (curr.items || []).reduce((s,i)=>s+(i.valorUnitario*i.cantidad),0);
+                return acc + vt;
+            }, 0);
             
-            let totalCobrado = 0;
             let totalPorCobrar = 0;
             ventasFiltradas.forEach(v => {
                 let totAbono = (v.abonos || []).reduce((a,b)=>a+b.monto,0);
-                totalCobrado += totAbono;
-                totalPorCobrar += Math.max(0, v.valor - totAbono);
+                let vTotal = v.valor || 0;
+                totalPorCobrar += Math.max(0, vTotal - totAbono);
             });
 
             let porcGananciaInversion = totalInversion > 0 ? ((totalGanancia / totalInversion) * 100).toFixed(1) : 0;
@@ -1536,7 +1667,8 @@
 
             dbVentas.forEach(v => {
                 let totAbono = (v.abonos || []).reduce((a,b)=>a+b.monto,0);
-                let saldo = v.valor - totAbono;
+                let vTotal = v.valor || 0;
+                let saldo = vTotal - totAbono;
                 if (saldo > 0) {
                     morososMap[v.clienteId || v.clienteNombre] = true;
                     if (v.fechaVenta) {
@@ -1548,8 +1680,9 @@
                 }
             });
 
-            let cantMorosos = Object.keys(morososMap).length;
-            document.getElementById('dash-morosos').innerText = cantMorosos;
+            document.getElementById('dash-morosos').innerText = Object.keys(morososMap).length;
+
+            calcularRankingsDashboard(ventasFiltradas);
 
             renderGraficoTiposVenta(ventasFiltradas);
             renderGraficoTendencia(ventasFiltradas);
@@ -1557,20 +1690,64 @@
             renderGraficoMorososAntiguedad(morososAntiguedad);
         }
 
+        function calcularRankingsDashboard(ventas) {
+            let articulosCount = {};
+            let clienteArticulos = {};
+            let clienteGanancia = {};
+
+            ventas.forEach(v => {
+                let cliName = v.clienteNombre || 'Desconocido';
+                let gananciaV = v.ganancia || 0;
+                
+                if(!clienteGanancia[cliName]) clienteGanancia[cliName] = 0;
+                clienteGanancia[cliName] += gananciaV;
+
+                let itemsList = v.items || [{ accesorio: v.tipoAccesorio, cantidad: v.cantidad || 1 }];
+                itemsList.forEach(it => {
+                    let acc = it.accesorio || 'Otro';
+                    let cant = it.cantidad || 1;
+
+                    articulosCount[acc] = (articulosCount[acc] || 0) + cant;
+
+                    if(!clienteArticulos[cliName]) clienteArticulos[cliName] = 0;
+                    clienteArticulos[cliName] += cant;
+                });
+            });
+
+            let topArticulos = Object.entries(articulosCount).sort((a,b) => b[1] - a[1]);
+            let htmlArt = topArticulos.slice(0, 5).map(([art, cant]) => `• ${art}: <strong>${cant} unidades</strong>`).join('<br>');
+            let elTopArt = document.getElementById('top-articulos-list');
+            if(elTopArt) elTopArt.innerHTML = htmlArt || 'Sin datos';
+
+            let topCliArt = Object.entries(clienteArticulos).sort((a,b) => b[1] - a[1]).slice(0, 3);
+            let htmlCliArt = topCliArt.map(([cli, cant], idx) => `${idx+1}. <strong>${cli}</strong> (${cant} artículos)`).join('<br>');
+            let elTopCliArt = document.getElementById('top-clientes-articulos');
+            if(elTopCliArt) elTopCliArt.innerHTML = htmlCliArt || 'Sin datos';
+
+            let topCliGan = Object.entries(clienteGanancia).sort((a,b) => b[1] - a[1]).slice(0, 3);
+            let htmlCliGan = topCliGan.map(([cli, gan], idx) => `${idx+1}. <strong>${cli}</strong> ($${gan.toLocaleString()})`).join('<br>');
+            let elTopCliGan = document.getElementById('top-clientes-ganancias');
+            if(elTopCliGan) elTopCliGan.innerHTML = htmlCliGan || 'Sin datos';
+        }
+
         function renderGraficoTiposVenta(ventas) {
-            let ctx = document.getElementById('chartTiposVenta').getContext('2d');
+            let ctx = document.getElementById('chartTiposVenta');
+            if(!ctx) return;
             let tiposCount = {};
             ventas.forEach(v => {
-                let t = v.tipoAccesorio || 'Otro';
-                let cant = v.cantidad || 1;
-                tiposCount[t] = (tiposCount[t] || 0) + cant;
+                let itemsList = v.items || [{ accesorio: v.tipoAccesorio, cantidad: v.cantidad || 1 }];
+                itemsList.forEach(it => {
+                    let t = it.accesorio || 'Otro';
+                    let cant = it.cantidad || 1;
+                    tiposCount[t] = (tiposCount[t] || 0) + cant;
+                });
             });
 
             let labels = Object.keys(tiposCount);
             let data = Object.values(tiposCount);
 
             if (chartsInstance.tiposVenta) chartsInstance.tiposVenta.destroy();
-            chartsInstance.tiposVenta = new Chart(ctx, {
+            chartsInstance.tiposVenta = new Chart(ctx.getContext('2d'), {
                 type: 'doughnut',
                 data: {
                     labels: labels,
@@ -1584,18 +1761,20 @@
         }
 
         function renderGraficoTendencia(ventas) {
-            let ctx = document.getElementById('chartTendenciaDiaria').getContext('2d');
+            let ctx = document.getElementById('chartTendenciaDiaria');
+            if(!ctx) return;
             let diasMap = {};
             ventas.forEach(v => {
                 let f = v.fechaVenta || 'Sin fecha';
-                diasMap[f] = (diasMap[f] || 0) + (v.valor || 0);
+                let vTotal = v.valor || 0;
+                diasMap[f] = (diasMap[f] || 0) + vTotal;
             });
 
             let fechasOrdenadas = Object.keys(diasMap).sort();
             let dataValores = fechasOrdenadas.map(f => diasMap[f]);
 
             if (chartsInstance.tendenciaDiaria) chartsInstance.tendenciaDiaria.destroy();
-            chartsInstance.tendenciaDiaria = new Chart(ctx, {
+            chartsInstance.tendenciaDiaria = new Chart(ctx.getContext('2d'), {
                 type: 'line',
                 data: {
                     labels: fechasOrdenadas,
@@ -1613,12 +1792,14 @@
         }
 
         function renderGraficoMensual() {
-            let ctx = document.getElementById('chartVentasMensuales').getContext('2d');
+            let ctx = document.getElementById('chartVentasMensuales');
+            if(!ctx) return;
             let mesesMap = {};
             dbVentas.forEach(v => {
                 if (v.fechaVenta) {
                     let mes = v.fechaVenta.slice(0, 7);
-                    mesesMap[mes] = (mesesMap[mes] || 0) + (v.valor || 0);
+                    let vTotal = v.valor || 0;
+                    mesesMap[mes] = (mesesMap[mes] || 0) + vTotal;
                 }
             });
 
@@ -1626,7 +1807,7 @@
             let dataValores = mesesOrdenados.map(m => mesesMap[m]);
 
             if (chartsInstance.ventasMensuales) chartsInstance.ventasMensuales.destroy();
-            chartsInstance.ventasMensuales = new Chart(ctx, {
+            chartsInstance.ventasMensuales = new Chart(ctx.getContext('2d'), {
                 type: 'bar',
                 data: {
                     labels: mesesOrdenados,
@@ -1641,12 +1822,13 @@
         }
 
         function renderGraficoMorososAntiguedad(antiguedadObj) {
-            let ctx = document.getElementById('chartMorososAntiguedad').getContext('2d');
+            let ctx = document.getElementById('chartMorososAntiguedad');
+            if(!ctx) return;
             let labels = Object.keys(antiguedadObj);
             let data = Object.values(antiguedadObj);
 
             if (chartsInstance.morososAntiguedad) chartsInstance.morososAntiguedad.destroy();
-            chartsInstance.morososAntiguedad = new Chart(ctx, {
+            chartsInstance.morososAntiguedad = new Chart(ctx.getContext('2d'), {
                 type: 'bar',
                 data: {
                     labels: labels,
