@@ -4,6 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Inspiración Boutique Accesorios</title>
+    
+    <!-- Configuración PWA -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#d63384">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="Inspiración Boutique">
+
     <!-- Firebase SDKs -->
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
@@ -288,7 +296,7 @@
             border-radius: 10px;
             box-shadow: 0 2px 4px rgba(0,0,0,0.05);
             position: relative;
-            height: 380px; /* Altura aumentada para evitar desbordamiento del gráfico de torta */
+            height: 380px;
             display: flex;
             flex-direction: column;
         }
@@ -1969,6 +1977,13 @@
 
         window.onload = function() {
             verificarAuth();
+            
+            // Registro del Service Worker para PWA
+            if ('serviceWorker' in navigator) {
+                navigator.serviceWorker.register('sw.js')
+                    .then(() => console.log("Service Worker registrado con éxito."))
+                    .catch(err => console.log("Error al registrar Service Worker:", err));
+            }
         };
     </script>
 </body>
