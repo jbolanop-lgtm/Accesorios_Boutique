@@ -80,10 +80,20 @@
             text-align: center;
         }
 
+        .auth-logo {
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin: 0 auto 15px auto;
+            border: 3px solid var(--primary-color);
+            box-shadow: 0 4px 10px rgba(214, 51, 132, 0.2);
+        }
+
         .auth-card h2 {
             color: var(--primary-color);
             margin-bottom: 25px;
-            font-size: 1.6rem;
+            font-size: 1.5rem;
         }
 
         .password-container {
@@ -127,16 +137,30 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 12px 25px;
+            padding: 10px 25px;
             position: sticky;
             top: 0;
             z-index: 1000;
             box-shadow: 0 2px 5px rgba(0,0,0,0.03);
         }
 
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .header-logo {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--primary-color);
+        }
+
         .logo-area h2 {
             color: var(--primary-color);
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             margin-bottom: 0;
         }
 
@@ -525,7 +549,8 @@
     <!-- Pantalla de Autenticación -->
     <div id="auth-screen">
         <div class="auth-card">
-            <h2>✨ Inspiración Boutique</h2>
+            <img src="Logo Inspiración Accesorios.png" alt="Inspiración Boutique Accesorios" class="auth-logo">
+            <h2>Inspiración Boutique</h2>
             <p style="color: var(--secondary-color); margin-bottom: 20px; font-size: 0.9rem;">Ingresa tu contraseña para acceder al sistema</p>
             <form id="auth-form" onsubmit="handleLogin(event)">
                 <div class="form-group" style="margin-bottom: 15px;">
@@ -547,7 +572,8 @@
                 <div style="display: flex; align-items: center; gap: 15px;">
                     <button class="hamburger-btn" onclick="toggleMenu()" aria-label="Abrir menú">☰</button>
                     <div class="logo-area">
-                        <h2>✨ Inspiración Boutique</h2>
+                        <img src="Logo Inspiración Accesorios.png" alt="Inspiración Boutique" class="header-logo">
+                        <h2>Inspiración Boutique</h2>
                     </div>
                 </div>
                 
