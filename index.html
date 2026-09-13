@@ -444,6 +444,8 @@
         }
         .badge-pending { background-color: #fff3cd; color: #856404; }
         .badge-paid { background-color: #d4edda; color: #155724; }
+        .badge-delivered { background-color: #d4edda; color: #155724; }
+        .badge-undelivered { background-color: #f8d7da; color: #721c24; }
 
         .modal {
             display: none;
@@ -732,80 +734,9 @@
                     <h1>Módulo de Ventas</h1>
                     
                     <div class="card">
-                        <h3 id="titulo-form-venta">Registrar Venta de Accesorios (Múltiples Artículos)</h3>
-                        <form id="form-venta" onsubmit="guardarVenta(event)">
-                            <input type="hidden" id="venta-id-edit">
-                            
-                            <div class="form-grid" style="background: #fdf2f8; padding: 12px; border-radius: 8px; border: 1px dashed var(--primary-color); margin-bottom: 15px;">
-                                <div class="form-group">
-                                    <label>Filtrar Clientes por Nombre</label>
-                                    <input type="text" id="form-filtro-cli-nombre" oninput="filtrarSelectClientesForm()" placeholder="Filtrar nombre...">
-                                </div>
-                                <div class="form-group">
-                                    <label>Filtrar Clientes por Celular</label>
-                                    <input type="text" id="form-filtro-cli-celular" oninput="filtrarSelectClientesForm()" placeholder="Filtrar celular...">
-                                </div>
-                            </div>
-
-                            <div class="form-grid">
-                                <div class="form-group" style="grid-column: span 2;">
-                                    <label for="venta-cliente">Clienta</label>
-                                    <select id="venta-cliente" required>
-                                        <option value="">Seleccione una clienta</option>
-                                    </select>
-                                </div>
-                            </div>
-
-                            <div style="margin-bottom: 15px;">
-                                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-                                    <label style="font-weight: bold; color: var(--text-color);">Artículos de la Venta:</label>
-                                    <button type="button" class="btn-success" style="padding: 5px 12px; font-size: 0.85rem;" onclick="agregarItemVentaFila()">➕ Adicionar Artículo</button>
-                                </div>
-                                <div id="items-venta-container"></div>
-                            </div>
-
-                            <div class="form-grid">
-                                <div class="form-group">
-                                    <label for="venta-estado">Estado del Pago</label>
-                                    <select id="venta-estado" required onchange="toggleEstadoPagoVenta()">
-                                        <option value="Pendiente">Pendiente</option>
-                                        <option value="Pagado">Pagado</option>
-                                    </select>
-                                </div>
-                                <div class="form-group" id="group-abono-inicial">
-                                    <label for="venta-abono-inicial">Abono Inicial ($)</label>
-                                    <input type="number" id="venta-abono-inicial" value="0" placeholder="Ej. 10000">
-                                </div>
-                                <div class="form-group" id="group-fecha-abono">
-                                    <label for="venta-fecha-abono">Fecha del Abono</label>
-                                    <input type="date" id="venta-fecha-abono">
-                                </div>
-                                <div class="form-group" id="group-medio-pago">
-                                    <label for="venta-medio-pago">Medio de Pago</label>
-                                    <select id="venta-medio-pago">
-                                        <option value="Nequi">Nequi</option>
-                                        <option value="Daviplata">Daviplata</option>
-                                        <option value="Bancolombia">Bancolombia</option>
-                                        <option value="Efectivo">Efectivo</option>
-                                    </select>
-                                </div>
-                                <div class="form-group" style="grid-column: span 2;">
-                                    <label for="venta-observacion">Observación General</label>
-                                    <textarea id="venta-observacion" rows="2" placeholder="Detalles adicionales..."></textarea>
-                                </div>
-                            </div>
-
-                            <div style="display: flex; gap: 10px; margin-top: 15px;">
-                                <button type="submit" class="btn-success" id="btn-guardar-venta">Registrar Venta</button>
-                                <button type="button" class="btn-secondary" id="btn-cancelar-venta" style="display:none;" onclick="cancelarEdicionVenta()">Cancelar</button>
-                            </div>
-                        </form>
-                    </div>
-
-                    <div class="card">
                         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; flex-wrap: wrap; gap: 10px;">
                             <h3>Historial de Ventas (Agrupado por Cliente)</h3>
-                            <button class="btn-excel" onclick="exportarVentasExcel()">📥 Exportar Excel</button>
+                            <button class="btn-success" onclick="abrirModalVentaNueva()">➕ Adicionar Nueva Venta</button>
                         </div>
 
                         <div class="filters-bar">
@@ -822,6 +753,10 @@
                             </div>
                         </div>
 
+                        <div style="display: flex; justify-content: flex-end; margin-bottom: 10px;">
+                            <button class="btn-excel" onclick="exportarVentasExcel()">📥 Exportar Excel</button>
+                        </div>
+
                         <div class="table-responsive">
                             <table>
                                 <thead>
@@ -832,7 +767,8 @@
                                         <th>Valor Total ($)</th>
                                         <th>Abonos ($)</th>
                                         <th>Saldo ($)</th>
-                                        <th>Estado</th>
+                                        <th>Estado Pago</th>
+                                        <th>Entrega</th>
                                         <th>Acciones</th>
                                     </tr>
                                 </thead>
@@ -886,17 +822,127 @@
         </div>
     </div>
 
-    <!-- Modal Emergente para Detalle de Saldo y Abonos -->
-    <div id="modal-detalle-cliente" class="modal">
-        <div class="modal-content">
-            <span class="close-modal" onclick="cerrarModalCliente()">&times;</span>
-            <h3 id="modal-cliente-nombre" style="color: var(--primary-color); margin-bottom: 15px;">Detalle de Cuenta</h3>
-            <div id="modal-cliente-info" style="margin-bottom: 20px; font-size: 0.95rem; line-height: 1.5;"></div>
-            <div id="modal-cliente-acciones"></div>
+    <!-- Modal Emergente para Registrar / Editar Venta -->
+    <div id="modal-venta" class="modal">
+        <div class="modal-content" style="max-width: 700px;">
+            <span class="close-modal" onclick="cerrarModalVenta()">&times;</span>
+            <h3 id="titulo-form-venta" style="color: var(--primary-color); margin-bottom: 15px;">Registrar Venta de Accesorios (Múltiples Artículos)</h3>
+            <form id="form-venta" onsubmit="guardarVenta(event)">
+                <input type="hidden" id="venta-id-edit">
+                
+                <div class="form-grid" style="background: #fdf2f8; padding: 12px; border-radius: 8px; border: 1px dashed var(--primary-color); margin-bottom: 15px;">
+                    <div class="form-group">
+                        <label>Filtrar Clientes por Nombre</label>
+                        <input type="text" id="form-filtro-cli-nombre" oninput="filtrarSelectClientesForm()" placeholder="Filtrar nombre...">
+                    </div>
+                    <div class="form-group">
+                        <label>Filtrar Clientes por Celular</label>
+                        <input type="text" id="form-filtro-cli-celular" oninput="filtrarSelectClientesForm()" placeholder="Filtrar celular...">
+                    </div>
+                </div>
+
+                <div class="form-grid">
+                    <div class="form-group" style="grid-column: span 2;">
+                        <label for="venta-cliente">Clienta</label>
+                        <select id="venta-cliente" required>
+                            <option value="">Seleccione una clienta</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div style="margin-bottom: 15px;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                        <label style="font-weight: bold; color: var(--text-color);">Artículos de la Venta:</label>
+                        <button type="button" class="btn-success" style="padding: 5px 12px; font-size: 0.85rem;" onclick="agregarItemVentaFila()">➕ Adicionar Artículo</button>
+                    </div>
+                    <div id="items-venta-container"></div>
+                </div>
+
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="venta-estado">Estado del Pago</label>
+                        <select id="venta-estado" required onchange="toggleEstadoPagoVenta()">
+                            <option value="Pendiente">Pendiente</option>
+                            <option value="Pagado">Pagado</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="venta-entrega">Estado de la Entrega</label>
+                        <select id="venta-entrega" required>
+                            <option value="Pendiente de entrega">Pendiente de entrega</option>
+                            <option value="Entregado">Entregado</option>
+                        </select>
+                    </div>
+                    <div class="form-group" id="group-abono-inicial">
+                        <label for="venta-abono-inicial">Abono Inicial ($)</label>
+                        <input type="number" id="venta-abono-inicial" value="0" placeholder="Ej. 10000">
+                    </div>
+                    <div class="form-group" id="group-fecha-abono">
+                        <label for="venta-fecha-abono">Fecha del Abono</label>
+                        <input type="date" id="venta-fecha-abono">
+                    </div>
+                    <div class="form-group" id="group-medio-pago">
+                        <label for="venta-medio-pago">Medio de Pago</label>
+                        <select id="venta-medio-pago">
+                            <option value="Nequi">Nequi</option>
+                            <option value="Daviplata">Daviplata</option>
+                            <option value="Bancolombia">Bancolombia</option>
+                            <option value="Efectivo">Efectivo</option>
+                        </select>
+                    </div>
+                    <div class="form-group" style="grid-column: span 2;">
+                        <label for="venta-observacion">Observación General</label>
+                        <textarea id="venta-observacion" rows="2" placeholder="Detalles adicionales..."></textarea>
+                    </div>
+                </div>
+
+                <div style="display: flex; gap: 10px; margin-top: 15px;">
+                    <button type="submit" class="btn-success" id="btn-guardar-venta">Registrar Venta</button>
+                    <button type="button" class="btn-secondary" id="btn-cancelar-venta" onclick="cerrarModalVenta()">Cancelar</button>
+                </div>
+            </form>
         </div>
     </div>
 
-    <!-- Modal para Registrar Abono / Ver Abonos -->
+    <!-- Modal Emergente para Detalle de Cuenta y Abono Progresivo -->
+    <div id="modal-detalle-cliente" class="modal">
+        <div class="modal-content" style="max-width: 650px;">
+            <span class="close-modal" onclick="cerrarModalCliente()">&times;</span>
+            <h3 id="modal-cliente-nombre" style="color: var(--primary-color); margin-bottom: 15px;">Detalle de Cuenta y Abonos</h3>
+            <div id="modal-cliente-info" style="margin-bottom: 15px; font-size: 0.95rem;"></div>
+
+            <!-- Formulario de Abono Progresivo -->
+            <form id="form-abono-progresivo" onsubmit="aplicarAbonoProgresivo(event)" style="background: #fdf2f8; padding: 12px; border-radius: 8px; border: 1px dashed var(--primary-color); margin-bottom: 15px;">
+                <input type="hidden" id="abono-progresivo-cliente-id">
+                <h4 style="font-size: 0.95rem; margin-bottom: 8px; color: var(--primary-color);">Registrar Abono General (Aplicación Progresiva)</h4>
+                <div class="form-grid" style="grid-template-columns: 1fr 1fr 1fr; gap: 8px;">
+                    <div class="form-group">
+                        <label>Monto ($)</label>
+                        <input type="number" id="prog-abono-monto" required placeholder="Ej. 50000">
+                    </div>
+                    <div class="form-group">
+                        <label>Fecha</label>
+                        <input type="date" id="prog-abono-fecha" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Medio Pago</label>
+                        <select id="prog-abono-medio" required>
+                            <option value="Nequi">Nequi</option>
+                            <option value="Daviplata">Daviplata</option>
+                            <option value="Bancolombia">Bancolombia</option>
+                            <option value="Efectivo">Efectivo</option>
+                        </select>
+                    </div>
+                </div>
+                <button type="submit" class="btn-success" style="width: 100%; margin-top: 8px;">Aplicar Abono a las Ventas Más Antiguas</button>
+            </form>
+
+            <h4 style="margin-bottom: 8px;">Historial de Compras y Saldos</h4>
+            <div id="modal-cliente-ventas-lista" style="max-height: 220px; overflow-y: auto;"></div>
+        </div>
+    </div>
+
+    <!-- Modal para Registrar Abono / Ver Abonos en Ventas -->
     <div id="modal-abonos" class="modal">
         <div class="modal-content">
             <span class="close-modal" onclick="cerrarModalAbonos()">&times;</span>
@@ -1028,6 +1074,7 @@
                 snapshot.forEach(doc => {
                     let data = doc.data();
                     if (!data.abonos) data.abonos = [];
+                    if (!data.estadoEntrega) data.estadoEntrega = 'Pendiente de entrega';
                     if (!data.items && data.tipoAccesorio) {
                         data.items = [{
                             accesorio: data.tipoAccesorio,
@@ -1058,11 +1105,6 @@
             if(moduleId === 'dashboard') actualizarDashboard();
             if(moduleId === 'ventas') {
                 cargarSelectClientes();
-                document.getElementById('form-filtro-cli-nombre').value = '';
-                document.getElementById('form-filtro-cli-celular').value = '';
-                if(document.querySelectorAll('.item-venta-row').length === 0) {
-                    agregarItemVentaFila();
-                }
             }
         }
 
@@ -1301,11 +1343,32 @@
             }
         }
 
+        function abrirModalVentaNueva() {
+            document.getElementById('form-venta').reset();
+            document.getElementById('venta-id-edit').value = '';
+            document.getElementById('titulo-form-venta').innerText = 'Registrar Venta de Accesorios (Múltiples Artículos)';
+            document.getElementById('btn-guardar-venta').innerText = 'Registrar Venta';
+            document.getElementById('items-venta-container').innerHTML = '';
+            cargarSelectClientes();
+            document.getElementById('form-filtro-cli-nombre').value = '';
+            document.getElementById('form-filtro-cli-celular').value = '';
+            document.getElementById('venta-entrega').value = 'Pendiente de entrega';
+            agregarItemVentaFila();
+            toggleEstadoPagoVenta();
+            document.getElementById('modal-venta').style.display = 'flex';
+        }
+
+        function cerrarModalVenta() {
+            document.getElementById('modal-venta').style.display = 'none';
+            cancelarEdicionVenta();
+        }
+
         function guardarVenta(e) {
             e.preventDefault();
             const idEdit = document.getElementById('venta-id-edit').value;
             const clienteId = document.getElementById('venta-cliente').value;
             const estado = document.getElementById('venta-estado').value;
+            const estadoEntrega = document.getElementById('venta-entrega').value;
             const observacion = document.getElementById('venta-observacion').value.trim();
             const fechaVenta = new Date().toISOString().split('T')[0];
 
@@ -1367,6 +1430,7 @@
                 costo: totalCostoVenta,
                 ganancia: gananciaTotal,
                 estado: estadoReal,
+                estadoEntrega,
                 observacion,
                 fechaVenta: idEdit ? dbVentas.find(v=>v.id===idEdit).fechaVenta : fechaVenta,
                 abonos
@@ -1380,14 +1444,12 @@
                     ventaData.estado = (totalValorVenta - totAbono) <= 0 ? 'Pagado' : 'Pendiente';
                 }
                 db.collection('ventas').doc(idEdit).update(ventaData).then(() => {
-                    cancelarEdicionVenta();
+                    cerrarModalVenta();
                     alert('¡Venta actualizada con éxito!');
                 }).catch(err => alert('Error: ' + err.message));
             } else {
                 db.collection('ventas').add(ventaData).then(() => {
-                    document.getElementById('form-venta').reset();
-                    document.getElementById('items-venta-container').innerHTML = '';
-                    agregarItemVentaFila();
+                    cerrarModalVenta();
                     alert('¡Venta registrada con éxito!');
                 }).catch(err => alert('Error: ' + err.message));
             }
@@ -1415,7 +1477,7 @@
             });
 
             if (filtradas.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="8" style="text-align:center; color:var(--secondary-color);">No hay ventas registradas.</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="9" style="text-align:center; color:var(--secondary-color);">No hay ventas registradas.</td></tr>`;
                 return;
             }
 
@@ -1424,6 +1486,9 @@
                 let vTotal = v.valor || (v.items || []).reduce((sum, it) => sum + (it.valorUnitario * it.cantidad), 0);
                 let saldo = vTotal - totalAbonado;
                 let estadoBadge = saldo <= 0 ? '<span class="badge badge-paid">Pagado</span>' : '<span class="badge badge-pending">Pendiente</span>';
+                
+                let entregaVal = v.estadoEntrega || 'Pendiente de entrega';
+                let entregaBadge = entregaVal === 'Entregado' ? '<span class="badge badge-delivered">Entregado</span>' : '<span class="badge badge-undelivered">Pendiente</span>';
 
                 let descItems = (v.items || []).map(i => `${i.cantidad}x ${i.accesorio} ($${(i.valorUnitario*i.cantidad).toLocaleString()})`).join(', ');
 
@@ -1436,6 +1501,7 @@
                         <td>$${totalAbonado.toLocaleString()}</td>
                         <td><strong>$${saldo.toLocaleString()}</strong></td>
                         <td>${estadoBadge}</td>
+                        <td>${entregaBadge}</td>
                         <td>
                             <div style="display: flex; gap: 4px; align-items: center;">
                                 <button class="btn-icon" title="Ver/Registrar Abonos" onclick="abrirModalAbonos('${v.id}')">💵</button>
@@ -1451,9 +1517,11 @@
         function editarVenta(id) {
             const v = dbVentas.find(item => item.id === id);
             if (!v) return;
+            cargarSelectClientes();
             document.getElementById('venta-id-edit').value = v.id;
             document.getElementById('venta-cliente').value = v.clienteId || '';
             document.getElementById('venta-estado').value = v.estado;
+            document.getElementById('venta-entrega').value = v.estadoEntrega || 'Pendiente de entrega';
             document.getElementById('venta-observacion').value = v.observacion || '';
             
             const container = document.getElementById('items-venta-container');
@@ -1466,16 +1534,8 @@
 
             document.getElementById('titulo-form-venta').innerText = 'Editar Venta';
             document.getElementById('btn-guardar-venta').innerText = 'Actualizar Venta';
-            document.getElementById('btn-cancelar-venta').style.display = 'inline-block';
             toggleEstadoPagoVenta();
-            switchModuleByName('ventas');
-            window.scrollTo({top: 0, behavior: 'smooth'});
-        }
-
-        function switchModuleByName(mod) {
-            document.querySelectorAll('.module').forEach(m => m.classList.remove('active'));
-            document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
-            document.getElementById(mod).classList.add('active');
+            document.getElementById('modal-venta').style.display = 'flex';
         }
 
         function cancelarEdicionVenta() {
@@ -1483,9 +1543,7 @@
             document.getElementById('venta-id-edit').value = '';
             document.getElementById('titulo-form-venta').innerText = 'Registrar Venta de Accesorios (Múltiples Artículos)';
             document.getElementById('btn-guardar-venta').innerText = 'Registrar Venta';
-            document.getElementById('btn-cancelar-venta').style.display = 'none';
             document.getElementById('items-venta-container').innerHTML = '';
-            agregarItemVentaFila();
             toggleEstadoPagoVenta();
         }
 
@@ -1511,7 +1569,8 @@
                     'Ganancia': v.ganancia,
                     'Total Abonado': totAbono,
                     'Saldo Pendiente': saldo,
-                    'Estado': saldo <= 0 ? 'Pagado' : 'Pendiente',
+                    'Estado Pago': saldo <= 0 ? 'Pagado' : 'Pendiente',
+                    'Estado Entrega': v.estadoEntrega || 'Pendiente de entrega',
                     'Observación': v.observacion || ''
                 };
             });
@@ -1664,7 +1723,7 @@
                         <td><strong style="color: var(--danger);">$${totalDeudaCliente.toLocaleString()}</strong></td>
                         <td>
                             <div style="display: flex; gap: 6px; align-items: center;">
-                                <button class="btn-icon" title="Ver Detalle / Abonar" onclick="abrirModalClienteCobro('${item.clienteId}')">👁️</button>
+                                <button class="btn-icon" title="Gestionar Cuenta y Pagos" onclick="abrirModalClienteCobro('${item.clienteId}')">💳</button>
                                 <a href="https://wa.me/57${item.clienteTelefono}?text=${textoWhatsApp}" target="_blank" class="btn-icon" title="Cobrar por WhatsApp" style="text-decoration:none;">💬</a>
                             </div>
                         </td>
@@ -1681,29 +1740,109 @@
             let nombre = cObj ? cObj.nombre : (ventasCliente[0]?.clienteNombre || 'Cliente');
             let telefono = cObj ? cObj.telefono : (ventasCliente[0]?.clienteTelefono || '');
 
-            let htmlInfo = `<p><strong>Teléfono:</strong> ${telefono}</p><hr style="margin:10px 0;">`;
+            document.getElementById('abono-progresivo-cliente-id').value = clienteId;
+            document.getElementById('prog-abono-fecha').value = new Date().toISOString().split('T')[0];
+            document.getElementById('prog-abono-monto').value = '';
+
+            let htmlInfo = `<p><strong>Teléfono:</strong> ${telefono}</p>`;
+            let ventasListaHtml = '';
             let totalDeuda = 0;
+
+            // Ordenar ventas por fecha (más antiguas primero)
+            ventasCliente.sort((a, b) => new Date(a.fechaVenta) - new Date(b.fechaVenta));
 
             ventasCliente.forEach(v => {
                 let totAbono = (v.abonos || []).reduce((a,b)=>a+b.monto,0);
-                let saldo = (v.valor || 0) - totAbono;
-                if(saldo > 0) {
-                    totalDeuda += saldo;
-                    let descItems = (v.items || []).map(i => `${i.cantidad}x ${i.accesorio}`).join(', ');
-                    htmlInfo += `
-                        <div style="background:#f8f9fa; padding:10px; border-radius:6px; margin-bottom:8px;">
-                            <p><strong>Fecha:</strong> ${v.fechaVenta} | <strong>Artículos:</strong> ${descItems}</p>
-                            <p><strong>Saldo Venta:</strong> <span style="color:var(--danger); font-weight:bold;">$${saldo.toLocaleString()}</span></p>
-                            <button class="btn-secondary" style="padding:4px 8px; font-size:0.75rem; margin-top:5px;" onclick="cerrarModalCliente(); abrirModalAbonos('${v.id}')">Gestionar Abonos</button>
+                let vTotal = v.valor || 0;
+                let saldo = vTotal - totAbono;
+                totalDeuda += saldo;
+                let descItems = (v.items || []).map(i => `${i.cantidad}x ${i.accesorio}`).join(', ');
+                let estadoBadge = saldo <= 0 ? '<span class="badge badge-paid">Pagado</span>' : '<span class="badge badge-pending">Pendiente</span>';
+
+                ventasListaHtml += `
+                    <div style="background:#f8f9fa; padding:10px; border-radius:6px; margin-bottom:8px; border: 1px solid var(--border-color);">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+                            <span style="font-weight:bold; font-size:0.85rem;">Fecha: ${v.fechaVenta}</span>
+                            ${estadoBadge}
                         </div>
-                    `;
-                }
+                        <p style="font-size: 0.85rem; color: var(--secondary-color);">Artículos: ${descItems}</p>
+                        <div style="display: flex; justify-content: space-between; margin-top: 6px; font-size: 0.9rem;">
+                            <span>Total: $${vTotal.toLocaleString()}</span>
+                            <span>Abonado: $${totAbono.toLocaleString()}</span>
+                            <span>Saldo: <strong style="color:${saldo > 0 ? 'var(--danger)' : 'var(--success)'};">$${saldo.toLocaleString()}</strong></span>
+                        </div>
+                    </div>
+                `;
             });
 
-            document.getElementById('modal-cliente-nombre').innerText = `Cuentas de: ${nombre}`;
+            htmlInfo += `<p style="margin-top: 5px;"><strong>Deuda Total Pendiente:</strong> <span style="color:var(--danger); font-size:1.1rem;">$${totalDeuda.toLocaleString()}</span></p>`;
+
+            document.getElementById('modal-cliente-nombre').innerText = `Cuenta de: ${nombre}`;
             document.getElementById('modal-cliente-info').innerHTML = htmlInfo;
-            document.getElementById('modal-cliente-acciones').innerHTML = `<p><strong>Deuda Total: $${totalDeuda.toLocaleString()}</strong></p>`;
+            document.getElementById('modal-cliente-ventas-lista').innerHTML = ventasListaHtml || '<p style="text-align:center;">No hay compras registradas.</p>';
             document.getElementById('modal-detalle-cliente').style.display = 'flex';
+        }
+
+        function aplicarAbonoProgresivo(e) {
+            e.preventDefault();
+            const clienteId = document.getElementById('abono-progresivo-cliente-id').value;
+            let montoAbonoRestante = parseFloat(document.getElementById('prog-abono-monto').value) || 0;
+            const fecha = document.getElementById('prog-abono-fecha').value;
+            const medio = document.getElementById('prog-abono-medio').value;
+
+            if (montoAbonoRestante <= 0) {
+                alert('Ingresa un monto válido para el abono.');
+                return;
+            }
+
+            let ventasCliente = dbVentas.filter(v => v.clienteId === clienteId);
+            ventasCliente.sort((a, b) => new Date(a.fechaVenta) - new Date(b.fechaVenta));
+
+            let promesasActualizacion = [];
+
+            for (let v of ventasCliente) {
+                if (montoAbonoRestante <= 0) break;
+
+                let totAbono = (v.abonos || []).reduce((a,b)=>a+b.monto,0);
+                let vTotal = v.valor || 0;
+                let saldoVenta = vTotal - totAbono;
+
+                if (saldoVenta > 0) {
+                    let montoAplicar = Math.min(montoAbonoRestante, saldoVenta);
+                    
+                    let abonos = v.abonos || [];
+                    abonos.push({
+                        id: Date.now() + Math.random(),
+                        monto: montoAplicar,
+                        fecha: fecha,
+                        medio: medio
+                    });
+
+                    let nuevoTotAbono = totAbono + montoAplicar;
+                    let nuevoSaldo = vTotal - nuevoTotAbono;
+                    let nuevoEstado = nuevoSaldo <= 0 ? 'Pagado' : 'Pendiente';
+
+                    promesasActualizacion.push(
+                        db.collection('ventas').doc(v.id).update({
+                            abonos: abonos,
+                            estado: nuevoEstado
+                        })
+                    );
+
+                    montoAbonoRestante -= montoAplicar;
+                }
+            }
+
+            Promise.all(promesasActualizacion).then(() => {
+                alert('¡Abono aplicado progresivamente con éxito!');
+                cerrarModalCliente();
+                renderCobros();
+                renderVentas();
+                renderClientes();
+                actualizarDashboard();
+            }).catch(err => {
+                alert('Error al aplicar abono: ' + err.message);
+            });
         }
 
         function cerrarModalCliente() {
