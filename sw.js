@@ -1,7 +1,13 @@
-const CACHE_NAME = 'inspiracion-v1';
+const CACHE_NAME = 'inspiracion-v2';
 const assets = [
   './',
   'index.html',
+  'manifest.json',
+  'icons/icon-32.png',
+  'icons/icon-180.png',
+  'icons/icon-192.png',
+  'icons/icon-512.png',
+  'icons/icon-maskable-512.png',
   'https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js',
   'https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js',
   'https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js',
