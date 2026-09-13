@@ -616,6 +616,10 @@
                             <h3>Clientes Morosos</h3>
                             <p id="dash-morosos">0</p>
                         </div>
+                        <div class="stat-card" style="border-left-color: var(--warning);">
+                            <h3>Pendientes de Entrega</h3>
+                            <p id="dash-pendientes-entrega">0</p>
+                        </div>
                     </div>
 
                     <!-- Rankings -->
@@ -747,6 +751,14 @@
                             <div class="form-group" style="flex: 1; min-width: 150px;">
                                 <label>Buscar por Celular</label>
                                 <input type="text" id="filtro-venta-celular" oninput="renderVentas()" placeholder="Celular...">
+                            </div>
+                            <div class="form-group" style="flex: 1; min-width: 150px;">
+                                <label>Estado de Entrega</label>
+                                <select id="filtro-venta-entrega" onchange="renderVentas()">
+                                    <option value="">Todos</option>
+                                    <option value="Pendiente de entrega">Pendiente de entrega</option>
+                                    <option value="Entregado">Entregado</option>
+                                </select>
                             </div>
                             <div>
                                 <button class="btn-secondary" onclick="limpiarFiltrosVentas()" style="background-color: var(--danger);">Limpiar</button>
@@ -1469,11 +1481,13 @@
 
             const bCliente = document.getElementById('filtro-venta-cliente').value.toLowerCase();
             const bCelular = document.getElementById('filtro-venta-celular').value.toLowerCase();
+            const bEntrega = document.getElementById('filtro-venta-entrega').value;
 
             let filtradas = dbVentas.filter(v => {
                 let matchCliente = (v.clienteNombre || '').toLowerCase().includes(bCliente);
                 let matchCel = (v.clienteTelefono || '').toLowerCase().includes(bCelular);
-                return matchCliente && matchCel;
+                let matchEntrega = bEntrega ? (v.estadoEntrega || 'Pendiente de entrega') === bEntrega : true;
+                return matchCliente && matchCel && matchEntrega;
             });
 
             if (filtradas.length === 0) {
@@ -1550,6 +1564,7 @@
         function limpiarFiltrosVentas() {
             document.getElementById('filtro-venta-cliente').value = '';
             document.getElementById('filtro-venta-celular').value = '';
+            document.getElementById('filtro-venta-entrega').value = '';
             renderVentas();
         }
 
@@ -1907,10 +1922,17 @@
             }, 0);
             
             let totalPorCobrar = 0;
+            let pendientesEntregaCount = 0;
+
             ventasFiltradas.forEach(v => {
                 let totAbono = (v.abonos || []).reduce((a,b)=>a+b.monto,0);
                 let vTotal = v.valor || 0;
                 totalPorCobrar += Math.max(0, vTotal - totAbono);
+
+                let entrega = v.estadoEntrega || 'Pendiente de entrega';
+                if (entrega === 'Pendiente de entrega') {
+                    pendientesEntregaCount++;
+                }
             });
 
             let porcGananciaInversion = totalInversion > 0 ? ((totalGanancia / totalInversion) * 100).toFixed(1) : 0;
@@ -1920,6 +1942,7 @@
             document.getElementById('dash-ganancia').innerText = `$${totalGanancia.toLocaleString()}`;
             document.getElementById('dash-porc-ganancia').innerText = `${porcGananciaInversion}%`;
             document.getElementById('dash-porc-cobrar').innerText = `${porcCobrarVendido}%`;
+            document.getElementById('dash-pendientes-entrega').innerText = pendientesEntregaCount;
 
             let morososMap = {};
             let hoyMs = new Date().getTime();
