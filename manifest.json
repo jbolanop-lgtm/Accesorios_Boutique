@@ -1,14 +1,13 @@
 {
   "name": "Inspiración Boutique Accesorios",
-  "short_name": "Inspiración Boutique",
-  "start_url": "./",
+  "short_name": "Inspiración",
+  "start_url": "index.html",
   "display": "standalone",
   "background_color": "#f8f9fa",
   "theme_color": "#d63384",
-  "orientation": "portrait",
   "icons": [
     {
-      "src": "https://cdn-icons-png.flaticon.com/512/2583/2583344.png",
+      "src": "Logo Inspiración Accesorios.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any maskable"
